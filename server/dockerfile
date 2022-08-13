@@ -1,0 +1,61 @@
+#      Title:    MicroCODE Dockerfile for MERN App - SERVER
+#      Module:   Modules (./dockerfile)
+#      Customer: Internal
+#      Creator:  MicroCODE Incorporated
+#      Date:     August 2022
+#      Author:   Timothy J McGuire
+#
+#      Designed and Coded: 2022 MicroCODE Incorporated
+#
+#      This software and related materials are the property of
+#      MicroCODE Incorporated and contain confidential and proprietary
+#      information. This software and related materials shall not be
+#      duplicated, disclosed to others, or used in any way without the
+#      written of MicroCODE Incorported.
+#
+#
+#      DESCRIPTION:
+#      ------------
+#
+#      This module implements the Dockerization of a MERN Client.
+#
+#
+#      REFERENCES:
+#      -----------
+#
+#      1. DOCKER Documentation
+#         https://docs.docker.com/docker-hub/
+#
+#
+#
+#      MODIFICATIONS:
+#      --------------
+#
+#  Date:         By-Group:   Rev:     Description:
+#
+#  13-Aug-2022   TJM-MCODE  {0001}    New file for learning DOCKER-ization.
+#
+#
+
+# use a small NODE.JS image
+FROM node:14-slim
+
+# signature
+MAINTAINER tjmcode <tmcguire@mcode.com>
+
+# set container’s working directory
+WORKDIR /app
+
+# copy Node dependencies for NPM
+COPY package.json /app/package.json
+
+# install all Node dependencies
+RUN npm install
+
+# Copy all App source code
+COPY . .
+
+#Expose port and start the application
+EXPOSE 8080
+
+CMD ["npm", "start"]
