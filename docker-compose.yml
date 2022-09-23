@@ -1,6 +1,8 @@
 version: '3'
+# taking 'appname' from the environment (.env) file
 services:
   client:
+    container_name: appname-client
     # Point build step to the client directory
     build: '.\client'
     ports:
@@ -9,6 +11,7 @@ services:
     depends_on:
       - server
   server:
+    container_name: appname-server
     # Point build step to the server directory
     build: '.\server'
     ports:
@@ -17,6 +20,7 @@ services:
     depends_on:
       - mongo
   mongo:
+    container_name: appname-database
     image: mongo
     ports:
       - '27017:27017'

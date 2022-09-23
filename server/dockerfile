@@ -41,7 +41,7 @@
 FROM node:14-slim
 
 # signature
-MAINTAINER tjmcode <tmcguire@mcode.com>
+LABEL MITxPRO-DockerMERN.image.authors="tjmcode <tmcguire@mcode.com>"
 
 # set container’s working directory
 WORKDIR /app
