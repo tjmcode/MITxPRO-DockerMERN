@@ -15,8 +15,8 @@ services:
       # Add the port that the server application runs on - (port:port).
       - '8080:8080'
     depends_on:
-      - database
-  database:
+      - mongo
+  mongo:
     image: mongo
     ports:
       - '27017:27017'
