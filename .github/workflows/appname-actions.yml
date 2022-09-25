@@ -31,6 +31,7 @@ jobs:
           COMPOSE_PROJECT_NAME: appname
   # D E P L O Y
   deploy:
+    runs-on: ubuntu-latest
     steps:
       - id: Deploy-Step-1
         name: DEPLOY - TRANSFER TO EC2
