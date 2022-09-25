@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v2
       - id: Deploy-Step-2
         name: DEPLOY - LOG-IN DOCKER HUB
-        run: echo ${{ secrets.DOCKERHUB_TOKEN }} |  docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --p  ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: echo ${{ secrets.DOCKERHUB_TOKEN }} |  docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p  ${{ secrets.DOCKERHUB_PASSWORD }}
       - id: Deploy-Step-3
         name: DEPLOY - GET DOCKER VERSION
         run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
