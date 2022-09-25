@@ -29,3 +29,18 @@ jobs:
         env:
           CI: true
           COMPOSE_PROJECT_NAME: appname
+  # D E P L O Y
+  deploy:
+    steps:
+      - id: Deploy-Step-1
+        name: DEPLOY - TRANSFER TO EC2
+        uses: wshihadeh/docker-deployment-action@v1
+        with:
+          remote_docker_host: ec2-user@ec2-3-21-204-216.us-east-2.compute.amazonaws.com
+          ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+          ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
+          deployment_mode: docker-compose
+          args: up -d
+          pre_deployment_command_args: 'bundle exec rake db:migrate'
+          docker_prune: 'true'
+          pull_images_first: 'true'
