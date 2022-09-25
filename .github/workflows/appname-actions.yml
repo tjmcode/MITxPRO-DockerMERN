@@ -1,3 +1,4 @@
+name: CI/CD for AppName
 on:
   push:
 jobs:
@@ -16,6 +17,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - id: Build-Step-3
+      - name: BUILD - DOCKER COMPOSE
+        uses: isbang/compose-action@v1.2.0
+        with:
+            compose-file: "./docker/docker-compose.yml"
       - id: Build-Step-4
       - name: BUILD - NPM INSTALL
       - run: npm install
