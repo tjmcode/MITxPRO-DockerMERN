@@ -9,12 +9,12 @@ jobs:
         node-version: [14.0]
     steps:
       - uses: actions/checkout@v3
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1
       - name: Use Node.js ${{ matrix.node-version }}
         with:
           node-version: ${{ matrix.node-version }}
-        uses: isbang/compose-action@v1.2.0
       - name: Docker Compose Action
+        uses: isbang/compose-action@v1.2.0
         with:
             compose-file: "./docker/docker-compose.yml"
       - run: npm install
