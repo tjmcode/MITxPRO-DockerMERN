@@ -38,7 +38,7 @@ jobs:
           COMPOSE_PROJECT_NAME: appname
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        run: docker login -user $DOCKER_USER -password-stdin $DOCKER_PASSWORD
       - id: Deploy-Step-3
         name: DEPLOY - DOCKER PUSH DATABASE
         env:
@@ -46,7 +46,7 @@ jobs:
         run: |
           docker build -t $REPO .
           docker tag $REPO:latest ${{secrets.DOCKER_USER}}/$REPO:latest
-          docker push ${{secrets.DOCKER_USER}}/$REP
+          docker push ${{secrets.DOCKER_USER}}/$REPO
       - id: Deploy-Step-4
         name: DEPLOY - DOCKER PUSH SERVER
         env:
@@ -54,7 +54,7 @@ jobs:
         run: |
           docker build -t $REPO .
           docker tag $REPO:latest ${{secrets.DOCKER_USER}}/$REPO:latest
-          docker push ${{secrets.DOCKER_USER}}/$REP
+          docker push ${{secrets.DOCKER_USER}}/$REPO
       - id: Deploy-Step-5
         name: DEPLOY - DOCKER PUSH CLIENT
         env:
@@ -62,4 +62,4 @@ jobs:
         run: |
           docker build -t $REPO .
           docker tag $REPO:latest ${{secrets.DOCKER_USER}}/$REPO:latest
-          docker push ${{secrets.DOCKER_USER}}/$REP
+          docker push ${{secrets.DOCKER_USER}}/$REPO
