@@ -4,7 +4,7 @@ services:
   client:
     container_name: appname-client
     # Point build step to the client directory
-    build: '.\client'
+    build: '..\client'
     ports:
       # Add the port that the client application runs on - (port:port).
       - '3000:3000'
@@ -13,7 +13,7 @@ services:
   server:
     container_name: appname-server
     # Point build step to the server directory
-    build: '.\server'
+    build: '..\server'
     ports:
       # Add the port that the server application runs on - (port:port).
       - '8080:8080'
