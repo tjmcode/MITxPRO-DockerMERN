@@ -4,7 +4,7 @@ on:
 jobs:
   # B U I L D
   build:
-    runs-on: ubuntu-latest
+    runs-on: linux-latest
     # Build all three (3) Docker Containers: Client, Server, Database
     strategy:
       matrix:
@@ -30,7 +30,7 @@ jobs:
   # D E P L O Y
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: linux-latest
     steps:
       - id: Deploy-Step-1
         name: DEPLOY - CHECK-OUT CODE
