@@ -9,7 +9,7 @@ jobs:
         node-version: [14.0]
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
       - name: Use Node.js ${{ matrix.node-version }}
         with:
           node-version: ${{ matrix.node-version }}
@@ -22,6 +22,7 @@ jobs:
       - run: npm test
         env:
           CI: true
+          COMPOSE_PROJECT_NAME: appname
   deploy:
     needs: build
     runs-on: ubuntu-latest
