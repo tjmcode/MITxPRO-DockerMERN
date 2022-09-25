@@ -21,16 +21,7 @@ jobs:
         name: BUILD - DOCKER COMPOSE
         uses: isbang/compose-action@v1.2.0
         with:
-            compose-file: "./docker/docker-compose.yml"
-      - id: Build-Step-4
-        name: BUILD - NPM INSTALL
-        run: npm install
-      - id: Build-Step-5
-        name: BUILD - NPM BUILD
-        run: npm run build --if-present
-      - id: Build-Step-6
-        name: BUILD - NPM TEST
-        run: npm test
+            compose-file: "docker-compose.yml"
         env:
           CI: true
           COMPOSE_PROJECT_NAME: appname
