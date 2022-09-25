@@ -2,6 +2,7 @@ name: CI/CD for AppName
 on:
   push:
 jobs:
+  # B U I L D
   build:
     runs-on: ubuntu-latest
     # Build all three (3) Docker Containers: Client, Server, Database
@@ -17,6 +18,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+        # D A T A B A S E  +  S E R V E R  +  C L I E N T
       - id: Build-Step-3
         name: BUILD - DOCKER COMPOSE
         uses: isbang/compose-action@v1.2.0
@@ -25,6 +27,7 @@ jobs:
         env:
           CI: true
           COMPOSE_PROJECT_NAME: appname
+  # D E P L O Y
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -38,7 +41,8 @@ jobs:
           COMPOSE_PROJECT_NAME: appname
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        run: docker login -user $DOCKER_USER -password-stdin $DOCKER_PASSWORD
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        # D A T A B A S E
       - id: Deploy-Step-3
         name: DEPLOY - DOCKER PUSH DATABASE
         env:
@@ -47,6 +51,7 @@ jobs:
           docker build -t $REPO .
           docker tag $REPO:latest ${{secrets.DOCKER_USER}}/$REPO:latest
           docker push ${{secrets.DOCKER_USER}}/$REPO
+        # S E R V E R
       - id: Deploy-Step-4
         name: DEPLOY - DOCKER PUSH SERVER
         env:
@@ -55,6 +60,7 @@ jobs:
           docker build -t $REPO .
           docker tag $REPO:latest ${{secrets.DOCKER_USER}}/$REPO:latest
           docker push ${{secrets.DOCKER_USER}}/$REPO
+        # C L I E N T
       - id: Deploy-Step-5
         name: DEPLOY - DOCKER PUSH CLIENT
         env:
