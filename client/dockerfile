@@ -41,7 +41,7 @@
 FROM node:14-slim
 
 # signature
-LABEL org.opencontainers.image.authors="tjmcode <tmcguire@mcode.com>"
+LABEL appname.client.authors="tjmcode <tmcguire@mcode.com>"
 
 # set container’s working directory
 WORKDIR /app
