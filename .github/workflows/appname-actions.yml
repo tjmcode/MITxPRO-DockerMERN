@@ -29,7 +29,7 @@ jobs:
         env:
           CI: true
           COMPOSE_PROJECT_NAME: appname
-  # D E P L O Y
+  # D E P L O Y   C O N T A I N E R S
   deploy:
     runs-on: ubuntu-latest
     steps:
