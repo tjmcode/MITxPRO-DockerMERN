@@ -5,6 +5,7 @@ on:
       - main
 jobs:
   build:
+    # B U I L D
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,6 +28,7 @@ jobs:
           CI: true
           COMPOSE_PROJECT_NAME: appname
   deploy:
+    # D E P L O Y
     needs: build
     runs-on: ubuntu-latest
     steps:
