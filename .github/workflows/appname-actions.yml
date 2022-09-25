@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.0]
+        node-version: [14]
     steps:
       - id: Build-Step-1
         name: BUILD - CHECK-OUT CODE
@@ -35,14 +35,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: Deploy-Step-1
-        name: DEPLOY - TRANSFER TO EC2
-        uses: wshihadeh/docker-deployment-action@v1
-        with:
-          remote_docker_host: ec2-user@ec2-3-21-204-216.us-east-2.compute.amazonaws.com
-          ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
-          ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
-          deployment_mode: docker-compose
-          args: up -d
-          pre_deployment_command_args: 'bundle exec rake db:migrate'
-          docker_prune: 'true'
-          pull_images_first: 'true'
+        name: DEPLOY - CHECK-OUT CODE
+        uses: actions/checkout@v2
+      - id: Deploy-Step-2
+        name: DEPLOY - LOG-IN DOCKER HUB
+        run: echo ${{ secrets.DOCKERHUB_TOKEN }} |  docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - id: Deploy-Step-3
+        name: DEPLOY - GET DOCKER VERSION
+        run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
+      - id: Deploy-Step-4
+        name: DEPLOY - BUILD SERVER DOCKER IMAGE
+        run: docker build -t tjmcode/server .
+      - id: Deploy-Step-5
+        name: DEPLOY - PUSH SERVER DOCKER IMAGE
+        run: docker push tjmcode/server
+      - id: Deploy-Step-6
+        name: DEPLOY - BUILD CLIENT DOCKER IMAGE
+        run: docker build -t tjmcode/client .
+      - id: Deploy-Step-7
+        name: DEPLOY - PUSH CLIENT DOCKER IMAGE
+        run: docker push tjmcode/client
