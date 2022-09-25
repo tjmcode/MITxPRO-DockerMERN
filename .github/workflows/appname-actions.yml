@@ -32,8 +32,8 @@ jobs:
   # D E P L O Y
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy Containers to Amazon EC2
     needs: build
+    name: Deploy Containers to Amazon EC2
     uses: wshihadeh/docker-deployment-action@v2
     with:
       remote_docker_host: ec2-user@ec2-3-21-204-216.us-east-2.compute.amazonaws.com
