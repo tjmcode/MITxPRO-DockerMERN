@@ -5,9 +5,7 @@ on:
       - main
 jobs:
   build:
-    # B U I L D
     runs-on: ubuntu-latest
-    # Build all three (3) Docker Containers: Client, Server, Database
     strategy:
       matrix:
         node-version: [14.0]
@@ -20,7 +18,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-        # D A T A B A S E  +  S E R V E R  +  C L I E N T
       - id: Build-Step-3
         name: BUILD - DOCKER COMPOSE
         uses: isbang/compose-action@v1.2.0
@@ -30,7 +27,6 @@ jobs:
           CI: true
           COMPOSE_PROJECT_NAME: appname
   deploy:
-    # D E P L O Y   C O N T A I N E R S
       needs: build
     runs-on: ubuntu-latest
     steps:
