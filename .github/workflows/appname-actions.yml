@@ -10,7 +10,7 @@ jobs:
         node-version: [14.0]
     steps:
       - id: Build-Step-1
-        name: BUILD - CHECK-OUT
+        name: BUILD - CHECK-OUT CODE
         uses: actions/checkout@v3
       - id: Build-Step-2
         name: BUILD - SET-UP NODE ${{ matrix.node-version }}
@@ -30,16 +30,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: Deploy-Step-1
-        name: DEPLOY - CHECK-OUT
+        name: DEPLOY - CHECK-OUT CODE
         uses: actions/checkout@master
       - id: Deploy-Step-2
-        name: DEPLOY - SYNC-SERVER
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --follow-symlinks --delete
+        name: DEPLOY - DOCKER LOGIN
         env:
           COMPOSE_PROJECT_NAME: appname
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "us-east-2"
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - id: Deploy-Step-3
+        name: DEPLOY - DOCKER PUSH DATABASE
+        env:
+          REPO: mit-xpro-appname-database
+        run: |
+          docker build -t $REPO .
+          docker tag $REPO:latest ${{secrets.DOCKER_USER}}/$REPO:latest
+          docker push ${{secrets.DOCKER_USER}}/$REP
+      - id: Deploy-Step-4
+        name: DEPLOY - DOCKER PUSH SERVER
+        env:
+          REPO: mit-xpro-appname-server
+        run: |
+          docker build -t $REPO .
+          docker tag $REPO:latest ${{secrets.DOCKER_USER}}/$REPO:latest
+          docker push ${{secrets.DOCKER_USER}}/$REP
+      - id: Deploy-Step-5
+        name: DEPLOY - DOCKER PUSH CLIENT
+        env:
+          REPO: mit-xpro-appname-client
+        run: |
+          docker build -t $REPO .
+          docker tag $REPO:latest ${{secrets.DOCKER_USER}}/$REPO:latest
+          docker push ${{secrets.DOCKER_USER}}/$REP
