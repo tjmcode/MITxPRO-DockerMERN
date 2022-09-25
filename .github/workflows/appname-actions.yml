@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     # B U I L D
+    name: BUILD  - PREPARATION
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -29,6 +30,7 @@ jobs:
           COMPOSE_PROJECT_NAME: appname
   deploy:
     # D E P L O Y
+    name: DEPLOY  - PREPARATION
     needs: build
     runs-on: ubuntu-latest
     steps:
