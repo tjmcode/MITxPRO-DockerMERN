@@ -1,0 +1,48 @@
+#      Title:    MicroCODE Dockerfile for MERN App - DATABASE
+#      Module:   Modules (./dockerfile)
+#      Customer: Internal
+#      Creator:  MicroCODE Incorporated
+#      Date:     August 2022
+#      Author:   Timothy J McGuire
+#
+#      Designed and Coded: 2022 MicroCODE Incorporated
+#
+#      This software and related materials are the property of
+#      MicroCODE Incorporated and contain confidential and proprietary
+#      information. This software and related materials shall not be
+#      duplicated, disclosed to others, or used in any way without the
+#      written of MicroCODE Incorported.
+#
+#
+#      DESCRIPTION:
+#      ------------
+#
+#      This module implements the Dockerization of a MERN Database.
+#
+#
+#      REFERENCES:
+#      -----------
+#
+#      1. DOCKER Documentation
+#         https://docs.docker.com/docker-hub/
+#
+#
+#
+#      MODIFICATIONS:
+#      --------------
+#
+#  Date:         By-Group:   Rev:     Description:
+#
+#  26-sep-2022   TJM-MCODE  {0001}    New file for learning DOCKER-ization.
+#
+#
+
+# use official "mongo" image
+FROM mongo
+
+# signature
+LABEL appname.database.constructor="tjmcode <tmcguire@mcode.com>"
+
+EXPOSE 27017
+
+CMD ["mongod"]

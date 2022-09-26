@@ -1,5 +1,4 @@
 version: '3'
-# taking 'appname' from the environment (.env) file
 services:
   client:
     container_name: appname-client
@@ -18,9 +17,11 @@ services:
       # Add the port that the server application runs on - (port:port).
       - '8080:8080'
     depends_on:
-      - mongo
-  mongo:
+      - database
+  database:
     container_name: appname-database
-    image: mongo
+        # Point build step to the server directory
+    build: 'database'
     ports:
+      # Add the port that the database application runs on - (port:port).
       - '27017:27017'

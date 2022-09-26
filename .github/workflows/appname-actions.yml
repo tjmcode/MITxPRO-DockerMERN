@@ -37,6 +37,7 @@ jobs:
         with:
           # relative path to the place where source code with Dockerfile is located
           context: ./server
+          file: ./server/dockerfile
           # Note: tags has to be all lower-case
           tags: tjmcode/mit-xpro-appname-server:latest
           # build on feature branches, push only on main branch
@@ -47,6 +48,7 @@ jobs:
         with:
           # relative path to the place where source code with Dockerfile is located
           context: ./client
+          file: ./client/dockerfile
           # Note: tags has to be all lower-case
           tags: tjmcode/mit-xpro-appname-client:latest
           # build on feature branches, push only on main branch

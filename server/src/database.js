@@ -7,7 +7,7 @@ const User = require('./models/user.model');
 // for running in a Docker Container that's running a HOST named "mongo"
 // NOTE: This "mongo" is *not* the Docker Container Name!
 //                  mondodb://host:port/app
-const connection = 'mongodb://mongo:27017/dockerize-me';
+const connection = 'mongodb://appname-database:27017/dockerize-me';
 
 const connectDb = () =>
 {
