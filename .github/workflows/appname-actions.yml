@@ -1,4 +1,4 @@
-name: CI/CD Pipelines for AppName
+name: CI/CD Pipeline for AppName
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
 jobs:
   ci-cd:
     #  B U I L D   &   P U S H
-    name: CI-CD Pipelines
+    name: CI-CD Pipeline
     runs-on: ubuntu-latest
     strategy:
       matrix:
