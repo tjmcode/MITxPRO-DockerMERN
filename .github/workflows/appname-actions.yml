@@ -49,6 +49,6 @@ jobs:
       -
         name: BUILD + PUSH
         run: |
-          docker push mit-xpro-appname/mongo
-          docker push mit-xpro-appname/server
-          docker push mit-xpro-appname/client
+          docker push appname-database/mongo
+          docker push appname-server/server
+          docker push appname-client/client
