@@ -32,15 +32,23 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PERSONAL_TOKEN }}
 
       -
-        name: BUILD - BUILD + PUSH TO DOCKER HUB
+        name: BUILD - SERVER FOR DOCKER HUB
         uses: docker/build-push-action@v2
         with:
           # relative path to the place where source code with Dockerfile is located
-          context: .
+          context: ./server
           # Note: tags has to be all lower-case
-          tags: |
-            tjmcode/mit-xpro-appname-server:latest
-            tjmcode/mit-xpro-appname-client:latest
+          tags: tjmcode/mit-xpro-appname-server:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
+      -
+        name: BUILD - CLIENT FOR DOCKER HUB
+        uses: docker/build-push-action@v2
+        with:
+          # relative path to the place where source code with Dockerfile is located
+          context: ./client
+          # Note: tags has to be all lower-case
+          tags: tjmcode/mit-xpro-appname-client:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
 
