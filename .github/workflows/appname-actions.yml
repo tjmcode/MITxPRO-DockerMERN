@@ -22,7 +22,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       -
         name: BUILD - SET-UP DOCKER BUILDX
-        id: buildx
         uses: docker/setup-buildx-action@v2
 
       -
@@ -33,18 +32,20 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PERSONAL_TOKEN }}
 
       -
-        name: BUILD - BUILD AND PUSH TO DOCKER HUB
+        name: BUILD - BUILD + PUSH TO DOCKER HUB
         uses: docker/build-push-action@v2
         with:
           # relative path to the place where source code with Dockerfile is located
           context: ./server
           # Note: tags has to be all lower-case
-          tags: |
-            tjmcode/mit-xpro-appname-server:latest
-            tjmcode/mit-xpro-appname-client:latest
+          tags: tjmcode/mit-xpro-appname-server:latest
+          # relative path to the place where source code with Dockerfile is located
+          context: ./client
+          # Note: tags has to be all lower-case
+          tags: tjmcode/mit-xpro-appname-client:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
 
       -
-        name: Image digest
+        name: BUILD - IMAGE DIGEST
         run: echo ${{ steps.docker_build.outputs.digest }}
