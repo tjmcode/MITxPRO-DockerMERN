@@ -12,41 +12,41 @@ jobs:
       matrix:
         node-version: [14]
     steps:
-      - id: Build-Step-1
+      -
         name: BUILD - CHECK-OUT CODE
         uses: actions/checkout@v3
-      - id: Build-Step-2
+      -
         name: BUILD - SET-UP NODE ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - id: Build-Step-3
+      -
         name: BUILD - DOCKER COMPOSE
         uses: isbang/compose-action@v1.2.0
         with:
             compose-file: "docker-compose.yml"
         env:
           CI: true
-          COMPOSE_PROJECT_NAME: appname
+          COMPOSE_PROJECT_NAME: mit-xpro-appname
   deploy:
     # D E P L O Y
     name: DEPLOY
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - id: Deploy-Step-1
+      -
         name: DEPLOY - CHECK-OUT CODE
-        uses: actions/checkout@v2
-      - id: Deploy-Step-2
+        uses: actions/checkout@v3
+      -
         name: DEPLOY - LOG-IN DOCKER HUB
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - id: Deploy-Step-3
+      -
         name: DEPLOY - GET DOCKER VERSION
         run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
-      - id: Deploy-Step-4
+      -
         name: BUILD + PUSH
         uses: docker/build-push-action@v3
         with:
