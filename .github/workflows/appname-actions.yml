@@ -1,4 +1,4 @@
-name: CI/CD for AppName
+name: CI/CD Pipelines for AppName
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
 jobs:
   ci-cd:
     #  B U I L D   &   P U S H
-    name: CI-CD
+    name: CI-CD Pipelines
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,6 +31,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PERSONAL_TOKEN }}
 
+      -
+        name: CI-CD - BUILD & PUSH DATABASE TO DOCKER HUB
+        uses: docker/build-push-action@v2
+        with:
+          # relative path to the place where source code with Dockerfile is located
+          context: ./database
+          file: ./database/dockerfile
+          # Note: tags has to be all lower-case
+          tags: tjmcode/mit-xpro-appname-database:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
       -
         name: CI-CD - BUILD & PUSH SERVER TO DOCKER HUB
         uses: docker/build-push-action@v2
