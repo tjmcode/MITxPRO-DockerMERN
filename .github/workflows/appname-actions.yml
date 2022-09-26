@@ -13,7 +13,7 @@ jobs:
         node-version: [14]
     steps:
       -
-        name: BUILD - CHECK-OUT CODE
+        name: BUILD - CHECK-OUT CODE TO VM
         uses: actions/checkout@v3
       -
         name: BUILD - SET-UP NODE ${{ matrix.node-version }}
@@ -48,8 +48,7 @@ jobs:
         run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
       -
         name: BUILD + PUSH
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: tjmcode/mit-xpro-appname:latest
+        run: |
+          docker push mit-xpro-appname/mongo
+          docker push mit-xpro-appname/server
+          docker push mit-xpro-appname/client
