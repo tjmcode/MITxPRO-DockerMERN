@@ -1,4 +1,4 @@
-#      Title:    MicroCODE Dockerfile for MERN App - CLIENT
+#      Title:    MicroCODE Dockerfile for MERN App - FRONTEND
 #      Module:   Modules (./dockerfile)
 #      Customer: Internal
 #      Creator:  MicroCODE Incorporated
@@ -17,7 +17,7 @@
 #      DESCRIPTION:
 #      ------------
 #
-#      This module implements the Dockerization of a MERN Client.
+#      This module implements the Dockerization of a MERN Frontend/Client.
 #
 #
 #      REFERENCES:
@@ -34,14 +34,15 @@
 #  Date:         By-Group:   Rev:     Description:
 #
 #  13-Aug-2022   TJM-MCODE  {0001}    New file for learning DOCKER-ization.
+#  27-Sep-2022   TJM-MCODE  {0002}    Updated to use .env APP_* variables.
 #
 #
 
-# use a small NODE.JS image
+# use official NodeJS image
 FROM node:14-slim
 
 # signature
-LABEL appname.client.authors="tjmcode <tmcguire@mcode.com>"
+LABEL ${APP_NAME}.client.constructor=${APP_CONSTRUCTOR}
 
 # set container’s working directory
 WORKDIR /app
@@ -56,6 +57,6 @@ RUN npm install
 COPY . .
 
 # Expose port and start the application
-EXPOSE 3000
+EXPOSE ${APP_FRONTEND_PORT}
 
 CMD ["npm", "start"]

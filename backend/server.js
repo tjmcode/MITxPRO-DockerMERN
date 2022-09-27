@@ -7,7 +7,6 @@ const faker = require('faker');
 const User = require('./src/models/user.model');
 
 // configure express to use cors()
-// ------------------------------------------------------------------
 app.use(cors());
 
 app.get('/users', async (req, res) =>
@@ -42,7 +41,6 @@ app.get('/', (req, res) =>
 });
 
 // start server
-// -----------------------
 app.listen(8080, function ()
 {
     console.log('Running on port 8080! - http://localhost:8080');

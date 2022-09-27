@@ -34,6 +34,7 @@
 #  Date:         By-Group:   Rev:     Description:
 #
 #  26-sep-2022   TJM-MCODE  {0001}    New file for learning DOCKER-ization.
+#  27-Sep-2022   TJM-MCODE  {0002}    Updated to use .env APP_* variables.
 #
 #
 
@@ -41,8 +42,8 @@
 FROM mongo
 
 # signature
-LABEL appname.database.constructor="tjmcode <tmcguire@mcode.com>"
+LABEL ${APP_NAME}.database.constructor=${APP_CONSTRUCTOR}
 
-EXPOSE 27017
+EXPOSE ${APP_DATABASE_PORT}
 
 CMD ["mongod"]

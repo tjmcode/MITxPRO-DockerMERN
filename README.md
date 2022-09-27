@@ -1,14 +1,14 @@
 # MITxPRO-DockerMERN
 A Full-Stack MERN (Mongo-Express-React-Node) Application in Docker Containers.
 
-* Define ‘appname’ in .env file or the “docker compose up” command takes the directory name as the app name...
+* Define COMPOSE_PROJECT_NAME in .env file or the “docker compose up” command takes the directory name as the app name...
 
 ```
 COMPOSE_PROJECT_NAME=appname
 ```
 
 
-* Use in the docker-compose.yml file use ‘container_name: <appname>-<containername>' to explicitly name teh sub-containers with a preofiux matching the 'appname-' and docker desktop does nice things…
+* Use in the docker-compose.yml file use ‘container_name: <appname>-<containername>' to explicitly name teh sub-containers with a prefix matching the 'appname-' and docker desktop does nice things…
 
 ```
 version: '3'
