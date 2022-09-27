@@ -2,26 +2,39 @@ version: '3'
 services:
   client:
     container_name: appname-client
-    # Point build step to the client directory
-    build: 'client'
+    # client, frontend, app ui
+    build:
+      context: client # build from \client
     ports:
-      # Add the port that the client application runs on - (port:port).
       - '3000:3000'
+    restart: always
+    networks:
+      - react-express # client to server connection
     depends_on:
       - server
   server:
     container_name: appname-server
-    # Point build step to the server directory
-    build: 'server'
+    # server, backend, app internals
+    build:
+      context: server # build from \server
     ports:
-      # Add the port that the server application runs on - (port:port).
       - '8080:8080'
+    restart: always
+    networks:
+      - react-express # client to server connection
+      - express-mongo # server to database connection
     depends_on:
       - database
   database:
     container_name: appname-database
-        # Point build step to the server directory
-    build: 'database'
+    # database, db, data store, app persistent data
+    build:
+      context: database # build from \database
     ports:
-      # Add the port that the database application runs on - (port:port).
       - '27017:27017'
+    restart: always
+    networks:
+      - express-mongo # server to database connection
+networks:
+  react-express:
+  express-mongo:
