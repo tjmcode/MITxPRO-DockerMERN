@@ -37,26 +37,26 @@
 #  27-Sep-2022   TJM-MCODE  {0002}    Updated to use .env APP_* variables.
 #
 #
-
+#
 # use official NodeJS image
 FROM node:14-slim
-
+#
 # signature
 LABEL ${APP_NAME}.backend.constructor=${APP_CONSTRUCTOR}
-
+#
 # set container’s working directory
 WORKDIR /app
-
+#
 # copy Node dependencies for NPM
 COPY package.json /app/package.json
-
+#
 # install all Node dependencies
 RUN npm install
-
+#
 # Copy all App source code
 COPY . .
-
+#
 # Expose port and start the application
 EXPOSE ${APP_BACKEND_PORT}
-
+#
 CMD ["npm", "start"]
