@@ -36,11 +36,12 @@
 #
 #  27-Sep-2022   TJM-MCODE  {0001}    Updated to use .env APP_* variables...
 #
+
+name: CI/CD Pipeline for MicroCODE MERN Apps
 #
 env:
   APP_NAME: appname  # manually for now, I want this read from the Project's .env file
 #
-name: CI/CD Pipeline for ${{ env.APP_NAME }}
 on:
   push:
     branches:
