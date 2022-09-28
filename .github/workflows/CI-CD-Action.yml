@@ -34,13 +34,13 @@
 #
 #  Date:         By-Group:   Rev:     Description:
 #
-#  27-Sep-2022   TJM-MCODE  {0001}    Updated to use .env APP_* variables.
+#  27-Sep-2022   TJM-MCODE  {0001}    Updated to use .env APP_* variables...
 #
 #
 env:
   APP_NAME: appname  # manually for now, I want this read from the Project's .env file
 #
-name: CI/CD Pipeline for ${APP_NAME}
+name: CI/CD Pipeline for ${{ env.APP_NAME }}
 on:
   push:
     branches:
@@ -81,7 +81,7 @@ jobs:
           context: ./database
           file: ./database/dockerfile
           # Note: tags has to be all lower-case
-          tags: tjmcode/${APP_NAME}-database:latest
+          tags: tjmcode/${{ env.APP_NAME }}-database:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
       -
@@ -92,7 +92,7 @@ jobs:
           context: ./server
           file: ./server/dockerfile
           # Note: tags has to be all lower-case
-          tags: tjmcode/${APP_NAME}-server:latest
+          tags: tjmcode/${{ env.APP_NAME }}-server:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
       -
@@ -103,6 +103,6 @@ jobs:
           context: ./client
           file: ./client/dockerfile
           # Note: tags has to be all lower-case
-          tags: tjmcode/${APP_NAME}-client:latest
+          tags: tjmcode/${{ env.APP_NAME }}-client:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
