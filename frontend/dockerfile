@@ -42,7 +42,11 @@
 FROM node:14-slim
 #
 # signature
-LABEL ${APP_NAME}.client.constructor=${APP_CONSTRUCTOR}
+LABEL ${APP_NAME}.frontend.constructor=${APP_CONSTRUCTOR}
+#
+# bring in the Node JS environment 'development' or 'production'
+ARG NODE_ENV
+ENV NODE_ENV ${NODE_ENV}
 #
 # set container’s working directory
 WORKDIR /app
@@ -53,10 +57,10 @@ COPY package.json /app/package.json
 # install all Node dependencies
 RUN npm install
 #
-# Copy all App source code
+# copy all App source code
 COPY . .
 #
-# Expose port and start the application
+# expose port and start the application
 EXPOSE ${APP_FRONTEND_PORT}
 #
 CMD ["npm", "start"]

@@ -1,68 +1,85 @@
-#      Title:    MicroCODE Docker Compose File for MERN App STACK
-#      Module:   Modules (./docker-compose.yml)
-#      Customer: MITxPRO MERN Course
-#      Creator:  MicroCODE Incorporated
-#      Date:     September 2022
-#      Author:   Timothy J McGuire
+#       Title:    MicroCODE Docker Compose File for MERN App STACK
+#       Module:   Modules (./docker-compose.yml)
+#       Customer: MITxPRO MERN Course
+#       Creator:  MicroCODE Incorporated
+#       Date:     September 2022
+#       Author:   Timothy J McGuire
 #
-#      Designed and Coded: 2022 MicroCODE Incorporated
+#       Designed and Coded: 2022 MicroCODE Incorporated
 #
-#      This software and related materials are the property of
-#      MicroCODE Incorporated and contain confidential and proprietary
-#      information. This software and related materials shall not be
-#      duplicated, disclosed to others, or used in any way without the
-#      written of MicroCODE Incorported.
-#
-#
-#      DESCRIPTION:
-#      ------------
-#
-#      This module builds all (3) Containers of the Dockerization of a MERN App.
-#
-#      o  Frontend = Client = ReactJS / NextJS, NodeJS, Apollo Client, etc.
-#      o  Backend = Server = ExpressJS, NodeJS, Apollo API, GraphQL, etc.
-#      o  Database = MondoDB = Persistent App Data Store.
+#       This software and related materials are the property of
+#       MicroCODE Incorporated and contain confidential and proprietary
+#       information. This software and related materials shall not be
+#       duplicated, disclosed to others, or used in any way without the
+#       written of MicroCODE Incorported.
 #
 #
-#      NOTES:
-#      ------
+#       DESCRIPTION:
+#       ------------
 #
-#      o  Code like a Machine™. Consistently and Explictly, Simply and for Readability. Hail CAESAR™.
+#       This module builds all (3) Containers of the Dockerization of a MERN App.
 #
-#      o  While I could just call for a standard 'mongo' image from 'backend' I chose to
-#         create a seperate folder and 'dockerfile' to do so, so I could build the (3) containers
-#         in a consistent manner. (The lack of a 'database' folder and dockfile threw me when
-#         I first looked at 3-Tier App examples, i.e.: Where is the dockfile for the 3rd Tier?).
-#         So I figured out how to invoke it just like 'frontend/client' and 'backend/server'. Hail CAESAR.
+#       o  Frontend = Client = ReactJS / NextJS, NodeJS, Apollo Client, etc.
+#       o  Backend = Server = ExpressJS, NodeJS, Apollo API, GraphQL, etc.
+#       o  Database = MondoDB = Persistent App Data Store.
 #
 #
+#       NOTES:
+#       ------
 #
-#      REFERENCES:
-#      -----------
+#       o  Remember: Code like a Machine™. Consistently and Explictly, Simply and for Readability. Hail CAESAR™.
 #
-#      1. DOCKER Documentation
-#         https://docs.docker.com/docker-hub/
-#
-#      2. CI/CD Hands-On : Github Actions+Docker Hub+AWS EC2
-#         https://medium.com/ryanjang-devnotes/ci-cd-hands-on-github-actions-docker-hub-aws-ec2-ba09f80297e1
-#
-#      3. Demo Repository of MERN + DOCKER (Development + Production Guidance)
-#         https://github.com/joshdcuneo/mern-docker-starter
-#
-#      4. How To Provision and Manage Remote Docker Hosts with Docker Machine on Ubuntu 16.04
-#         https://www.digitalocean.com/community/tutorials/how-to-provision-and-manage-remote-docker-hosts-with-docker-machine-on-ubuntu-16-04
-#
-#      5. Automatically build & push a Full Stack Application onto Docker Hub using GitHub Actions
-#         https://towardsdev.com/automatically-build-push-a-full-stack-application-onto-docker-hub-using-github-actions-fb274980202d
-#
-#      6. How to Use MERN Stack: A Complete Guide
-#         https://www.mongodb.com/languages/mern-stack-tutorial
+#       o  While I could just call for a standard 'mongo' image from 'backend' I chose to
+#          create a seperate folder and 'dockerfile' to do so, so I could build the (3) containers
+#          in a consistent manner. (The lack of a 'database' folder and dockfile threw me when
+#          I first looked at 3-Tier App examples, i.e.: Where is the dockfile for the 3rd Tier?).
+#          So I figured out how to invoke it just like 'frontend/client' and 'backend/server'. Hail CAESAR.
 #
 #
+#       REFERENCES:
+#       -----------
+#
+#       1. DOCKER Documentation
+#          by Docker, Inc.
+#          https://docs.docker.com/docker-hub/
+#
+#       2. Docker for absolute beginners — what is Docker and how to use it (+ examples) - PART 1
+#          by Mike Huls
+#          https://towardsdatascience.com/docker-for-absolute-beginners-what-is-docker-and-how-to-use-it-examples-3d3b11efd830
+#
+#       3. Docker Compose for absolute beginners — how does it work and how to use it (+ examples) - PART 2
+#          by Mike Huls
+#          https://towardsdatascience.com/docker-compose-for-absolute-beginners-how-does-it-work-and-how-to-use-it-examples-733ca24c5e6c
+#
+#       4. A complete guide to using environment variables and files with Docker and Compose
+#          by Mike Huls
+#          https://towardsdatascience.com/a-complete-guide-to-using-environment-variables-and-files-with-docker-and-compose-4549c21dc6af
+#
+#       5. CI/CD Hands-On : Github Actions+Docker Hub+AWS EC2
+#          by Minho Jang
+#          https://medium.com/ryanjang-devnotes/ci-cd-hands-on-github-actions-docker-hub-aws-ec2-ba09f80297e1
+#
+#       6. Demo Repository of MERN + DOCKER (Development + Production Guidance)
+#          by Josh Cuneo
+#          https://github.com/joshdcuneo/mern-docker-starter
+#
+#       7. How To Provision and Manage Remote Docker Hosts with Docker Machine on Ubuntu 16.04
+#          by Finid
+#          https://www.digitalocean.com/community/tutorials/how-to-provision-and-manage-remote-docker-hosts-with-docker-machine-on-ubuntu-16-04
+#
+#       8. Automatically build & push a Full Stack Application onto Docker Hub using GitHub Actions
+#          by Stephen George
+#          https://towardsdev.com/automatically-build-push-a-full-stack-application-onto-docker-hub-using-github-actions-fb274980202d
+#
+#       9. How to Use MERN Stack: A Complete Guide
+#          by MongoDB, Inc.
+#          https://www.mongodb.com/languages/mern-stack-tutorial
 #
 #
-#      MODIFICATIONS:
-#      --------------
+#
+#
+#       MODIFICATIONS:
+#       --------------
 #
 #  Date:         By-Group:   Rev:     Description:
 #
@@ -71,6 +88,7 @@
 #
 #
 version: '3'
+#
 services:
   #
   #  F R O N T E N D
@@ -80,16 +98,18 @@ services:
     container_name: ${APP_NAME}-frontend
     # use the shared .env file for all 3 Tiers
     env_file:
-      - .\.env
+      - .\.env  # shared environment vars for all 3-Tiers
+      - .\.env.${NODE_ENV:-development}  # "development" or "production"
     build:
-      context: frontend # build from \frontend
+      context: frontend  # build from \frontend
       args:
         APP_NAME: ${APP_NAME}
+        NODE_ENV: ${NODE_ENV:-development}
     ports:
       - '${APP_FRONTEND_PORT}:${APP_FRONTEND_PORT}'
     restart: always
     networks:
-      - react-express # frontend to backend connection
+      - react-express  # frontend to backend connection
     depends_on:
       - backend
   #
@@ -100,17 +120,19 @@ services:
     container_name: ${APP_NAME}-backend
     # use the shared .env file for all 3 Tiers
     env_file:
-      - .\.env
+      - .\.env  # shared environment vars for all 3-Tiers
+      - .\.env.${NODE_ENV:-development}  # "development" or "production"
     build:
-      context: backend # build from \backend
+      context: backend  # build from \backend
       args:
         APP_NAME: ${APP_NAME}
+        NODE_ENV: ${NODE_ENV:-development}
     ports:
       - '${APP_BACKEND_PORT}:${APP_BACKEND_PORT}'
     restart: always
     networks:
-      - react-express # frontend to backend connection
-      - express-mongo # backend to database connection
+      - react-express  # frontend to backend connection
+      - express-mongo  # backend to database connection
     depends_on:
       - database
   #
@@ -121,16 +143,18 @@ services:
     container_name: ${APP_NAME}-database
     # use the shared .env file for all 3 Tiers
     env_file:
-      - .\.env
+      - .\.env  # shared environment vars for all 3-Tiers
+      - .\.env.${NODE_ENV:-development}  # "development" or "production"
     build:
-      context: database # build from \database
+      context: database  # build from \database
       args:
         APP_NAME: ${APP_NAME}
+        NODE_ENV: ${NODE_ENV:-development}
     ports:
       - '${APP_DATABASE_PORT}:${APP_DATABASE_PORT}'
     restart: always
     networks:
-      - express-mongo # backend to database connection
+      - express-mongo  # backend to database connection
 networks:
   react-express:
   express-mongo:

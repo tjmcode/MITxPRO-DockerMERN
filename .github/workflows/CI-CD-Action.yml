@@ -1,6 +1,7 @@
 #      Title:    MicroCODE GitHub CI/CD Action for Dockerized MERN App
 #      Module:   Modules (./github/workflows)
-#      Customer: Internal
+#      Project:  MicroCODE 3-Tier MERN Template 'AppName'
+#      Customer: Internal+MIT xPRO Course
 #      Creator:  MicroCODE Incorporated
 #      Date:     September 2022
 #      Author:   Timothy J McGuire
@@ -54,7 +55,7 @@
 name: CI/CD Pipeline for MicroCODE MERN Apps
 #
 env:
-  APP_NAME: appname  # manually for now, I want this read from the Project's .env file
+  APP_NAME: appname  # define manually for now, I want this read from the Project's .env file
 #
 on:
   push:

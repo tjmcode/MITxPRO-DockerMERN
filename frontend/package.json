@@ -1,8 +1,10 @@
 {
   "name": "mcode-frontend",
   "version": "0.0.0",
-  "description": "MicroCODE's generic MERN Frontend.",
+  "description": "MicroCODE's Generic MERN Frontend.",
   "private": true,
+  "author": "Timothy McGuire",
+  "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",

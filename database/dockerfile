@@ -37,13 +37,18 @@
 #  27-Sep-2022   TJM-MCODE  {0002}    Updated to use .env APP_* variables.
 #
 #
-
+#
 # use official "mongo" image
 FROM mongo
-
+#
 # signature
 LABEL ${APP_NAME}.database.constructor=${APP_CONSTRUCTOR}
-
+#
+# bring in the Node JS environment 'development' or 'production'
+ARG NODE_ENV
+ENV NODE_ENV ${NODE_ENV}
+#
+# expose port and start the application
 EXPOSE ${APP_DATABASE_PORT}
-
+#
 CMD ["mongod"]
