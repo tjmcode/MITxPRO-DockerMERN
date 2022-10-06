@@ -39,41 +39,45 @@
 #       REFERENCES:
 #       -----------
 #
-#       1. DOCKER Documentation
-#          by Docker, Inc.
-#          https://docs.docker.com/docker-hub/
+#       1.  DOCKER Documentation
+#           by Docker, Inc.
+#           https://docs.docker.com/docker-hub/
 #
-#       2. Docker for absolute beginners — what is Docker and how to use it (+ examples) - PART 1
-#          by Mike Huls
-#          https://towardsdatascience.com/docker-for-absolute-beginners-what-is-docker-and-how-to-use-it-examples-3d3b11efd830
+#       2.  Docker for absolute beginners — what is Docker and how to use it (+ examples) - PART 1
+#           by Mike Huls
+#           https://towardsdatascience.com/docker-for-absolute-beginners-what-is-docker-and-how-to-use-it-examples-3d3b11efd830
 #
-#       3. Docker Compose for absolute beginners — how does it work and how to use it (+ examples) - PART 2
-#          by Mike Huls
-#          https://towardsdatascience.com/docker-compose-for-absolute-beginners-how-does-it-work-and-how-to-use-it-examples-733ca24c5e6c
+#       3.  Docker Compose for absolute beginners — how does it work and how to use it (+ examples) - PART 2
+#           by Mike Huls
+#           https://towardsdatascience.com/docker-compose-for-absolute-beginners-how-does-it-work-and-how-to-use-it-examples-733ca24c5e6c
 #
-#       4. A complete guide to using environment variables and files with Docker and Compose
-#          by Mike Huls
-#          https://towardsdatascience.com/a-complete-guide-to-using-environment-variables-and-files-with-docker-and-compose-4549c21dc6af
+#       4.  A complete guide to using environment variables and files with Docker and Compose
+#           by Mike Huls
+#           https://towardsdatascience.com/a-complete-guide-to-using-environment-variables-and-files-with-docker-and-compose-4549c21dc6af
 #
-#       5. CI/CD Hands-On : Github Actions+Docker Hub+AWS EC2
-#          by Minho Jang
-#          https://medium.com/ryanjang-devnotes/ci-cd-hands-on-github-actions-docker-hub-aws-ec2-ba09f80297e1
+#       5.  CI/CD Hands-On : Github Actions+Docker Hub+AWS EC2
+#           by Minho Jang
+#           https://medium.com/ryanjang-devnotes/ci-cd-hands-on-github-actions-docker-hub-aws-ec2-ba09f80297e1
 #
-#       6. Demo Repository of MERN + DOCKER (Development + Production Guidance)
-#          by Josh Cuneo
-#          https://github.com/joshdcuneo/mern-docker-starter
+#       6.  Demo Repository of MERN + DOCKER (Development + Production Guidance)
+#           by Josh Cuneo
+#           https://github.com/joshdcuneo/mern-docker-starter
 #
-#       7. How To Provision and Manage Remote Docker Hosts with Docker Machine on Ubuntu 16.04
-#          by Finid
-#          https://www.digitalocean.com/community/tutorials/how-to-provision-and-manage-remote-docker-hosts-with-docker-machine-on-ubuntu-16-04
+#       7.  How To Provision and Manage Remote Docker Hosts with Docker Machine on Ubuntu 16.04
+#           by Finid
+#           https://www.digitalocean.com/community/tutorials/how-to-provision-and-manage-remote-docker-hosts-with-docker-machine-on-ubuntu-16-04
 #
-#       8. Automatically build & push a Full Stack Application onto Docker Hub using GitHub Actions
-#          by Stephen George
-#          https://towardsdev.com/automatically-build-push-a-full-stack-application-onto-docker-hub-using-github-actions-fb274980202d
+#       8.  Automatically build & push a Full Stack Application onto Docker Hub using GitHub Actions
+#           by Stephen George
+#           https://towardsdev.com/automatically-build-push-a-full-stack-application-onto-docker-hub-using-github-actions-fb274980202d
 #
-#       9. How to Use MERN Stack: A Complete Guide
-#          by MongoDB, Inc.
-#          https://www.mongodb.com/languages/mern-stack-tutorial
+#       9.  How to Use MERN Stack: A Complete Guide
+#           by MongoDB, Inc.
+#           https://www.mongodb.com/languages/mern-stack-tutorial
+#
+#       10. How to Use Docker Environment Variables in Docker Compose
+#           by Estefania Gallardo
+#           https://builtin.com/software-engineering-perspectives/docker-compose-environment-variables
 #
 #
 #
@@ -99,12 +103,12 @@ services:
     # use the shared .env file for all 3 Tiers
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
-      - .\.env.${NODE_ENV:-development}  # "development" or "production"
+      - .\.env.${NODE_ENV:-production}  # "development" or "production"
     build:
       context: frontend  # build from \frontend
       args:
         APP_NAME: ${APP_NAME}
-        NODE_ENV: ${NODE_ENV:-development}
+        NODE_ENV: ${NODE_ENV:-production}
     ports:
       - '${APP_FRONTEND_PORT}:${APP_FRONTEND_PORT}'
     restart: always
@@ -121,12 +125,12 @@ services:
     # use the shared .env file for all 3 Tiers
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
-      - .\.env.${NODE_ENV:-development}  # "development" or "production"
+      - .\.env.${NODE_ENV:-production}  # "development" or "production"
     build:
       context: backend  # build from \backend
       args:
         APP_NAME: ${APP_NAME}
-        NODE_ENV: ${NODE_ENV:-development}
+        NODE_ENV: ${NODE_ENV:-production}
     ports:
       - '${APP_BACKEND_PORT}:${APP_BACKEND_PORT}'
     restart: always
@@ -144,12 +148,12 @@ services:
     # use the shared .env file for all 3 Tiers
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
-      - .\.env.${NODE_ENV:-development}  # "development" or "production"
+      - .\.env.${NODE_ENV:-production}  # "development" or "production"
     build:
       context: database  # build from \database
       args:
         APP_NAME: ${APP_NAME}
-        NODE_ENV: ${NODE_ENV:-development}
+        NODE_ENV: ${NODE_ENV:-production}
     ports:
       - '${APP_DATABASE_PORT}:${APP_DATABASE_PORT}'
     restart: always

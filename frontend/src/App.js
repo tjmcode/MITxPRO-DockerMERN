@@ -139,11 +139,6 @@ class App extends Component
     async createUser()
     {
         log(`Attempting Create User: ${apiUrl}/user-create`, logSource, `Waiting`);
-        log(`Attempting Create User: ${apiUrl}/user-create`, logSource, `Information`);
-        log(`Attempting Create User: ${apiUrl}/user-create`, logSource, `Warning`);
-        log(`Attempting Create User: ${apiUrl}/user-create`, logSource, `Error`);
-        log(`Attempting Create User: ${apiUrl}/user-create`, logSource, `Fatal`);
-        log(`Attempting Create User: ${apiUrl}/user-create`, logSource, `Waiting`);
 
         try
         {

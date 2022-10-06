@@ -160,7 +160,7 @@ app.get('/', function (req, res)
 app.get('/test', function (req, res)
 {
     // a simple response to a request
-    res.send("MicroCODE Generic 3-Tier MERN test was scucessful. [NOTE: Changes to this file are *not* dynamic, they are loaded at Page Display.]");
+    res.send("MicroCODE Generic 3-Tier MERN test was scucessful. [NOTE: Changes to this file are *not* dynamic, they are loaded at Page Display.]\n");
 });
 
 /**

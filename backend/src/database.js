@@ -121,12 +121,6 @@ const connectDB = () =>
     {
         dbConnectionStatus = mongoose.connect(connection, {useNewUrlParser: true, useUnifiedTopology: true});
         mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `Information`);
-        mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `Waiting`);
-        mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `Warning`);
-        mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `Error`);
-        mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `Fatal`);
-        mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `Information`);
-        mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `Information`);
     }
     catch
     {
