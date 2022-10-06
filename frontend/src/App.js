@@ -89,7 +89,7 @@ require('dotenv').config();
 // #region  C O N S T A N T S
 
 // localhost:8080
-// https://appname.tjmcode.io:8080
+// https://appname.tjmcode.io/backend
 const apiPort = parseInt(`${process.env.REACT_APP_BACKEND_PORT}`);
 const apiUrl = `https://${process.env.REACT_APP_SUBDOMAIN}/backend`;
 
