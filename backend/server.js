@@ -73,10 +73,12 @@
 
 // #region  C O N S T A N T S
 
-// localhost:8080
-// https://appname.tjmcode.io:8080
+//    localhost:8080 for development
+//    https://appname.tjmcode.io/backend for frontend
+// or https://appname.tjmcode.io:8080 for backend
+//
 const appPort = parseInt(`${process.env.APP_BACKEND_PORT}`);
-const appUrl = `https://${process.env.APP_SUBDOMAIN}:${appPort}`;
+const appUrl = `https://${process.env.APP_SUBDOMAIN}${process.env.APP_BACKEND_POINT}`;
 
 // #endregion
 
