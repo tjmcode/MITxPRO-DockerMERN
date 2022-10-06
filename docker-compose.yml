@@ -103,12 +103,12 @@ services:
     # use the shared .env file for all 3 Tiers
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
-      - .\.env.${NODE_ENV:-production}  # "development" or "production"
+      - .\.env.${NODE_ENV:-development}  # "development" or "production"
     build:
       context: frontend  # build from \frontend
       args:
         APP_NAME: ${APP_NAME}
-        NODE_ENV: ${NODE_ENV:-production}
+        NODE_ENV: ${NODE_ENV:-development}
     ports:
       - '${APP_FRONTEND_PORT}:${APP_FRONTEND_PORT}'
     restart: always
@@ -125,12 +125,12 @@ services:
     # use the shared .env file for all 3 Tiers
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
-      - .\.env.${NODE_ENV:-production}  # "development" or "production"
+      - .\.env.${NODE_ENV:-development}  # "development" or "production"
     build:
       context: backend  # build from \backend
       args:
         APP_NAME: ${APP_NAME}
-        NODE_ENV: ${NODE_ENV:-production}
+        NODE_ENV: ${NODE_ENV:-development}
     ports:
       - '${APP_BACKEND_PORT}:${APP_BACKEND_PORT}'
     restart: always
@@ -148,12 +148,12 @@ services:
     # use the shared .env file for all 3 Tiers
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
-      - .\.env.${NODE_ENV:-production}  # "development" or "production"
+      - .\.env.${NODE_ENV:-development}  # "development" or "production"
     build:
       context: database  # build from \database
       args:
         APP_NAME: ${APP_NAME}
-        NODE_ENV: ${NODE_ENV:-production}
+        NODE_ENV: ${NODE_ENV:-development}
     ports:
       - '${APP_DATABASE_PORT}:${APP_DATABASE_PORT}'
     restart: always
