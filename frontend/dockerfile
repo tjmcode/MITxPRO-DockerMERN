@@ -44,9 +44,25 @@ FROM node:14-slim
 # signature
 LABEL ${APP_NAME}.frontend.constructor=${APP_CONSTRUCTOR}
 #
-# bring in the Node JS environment 'development' or 'production'
-ARG NODE_ENV
-ENV NODE_ENV ${NODE_ENV}
+# default all our ENVIRONMENT VARIABLES to 'Production'
+# these of overriden by the 'Docker-Compose.yml' during development
+ENV \
+    # REACT_APP_ENV
+    REACT_APP_ENV=production \
+    #
+    # APP_DOMAIN - the name of the domain hosting the App used throughout the build and the JS code.
+    # tjmcode.io, controlnet.io, laddersnet.io, or localhost for development
+    APP_DOMAIN=tjmcode.io \
+    #
+    # APP_SUBDOMAIN - the name of the sub-doomain hosting the App used throughout the build and the JS code.
+    # ${APP_NAME}.${APP_DOMAIN} or localhost for development
+    APP_SUBDOMAIN=${APP_NAME}.${APP_DOMAIN} \
+    #
+    # REACT_APP_SUBDOMAIN - the same name made accessible in the React App Front-end
+    REACT_APP_SUBDOMAIN=${APP_SUBDOMAIN} \
+    #
+    # REACT_APP_BACKEND_PORT - taken from the standard .env file into a REACT_APP_* var for the Front-End
+    REACT_APP_BACKEND_PORT=${APP_BACKEND_PORT}
 #
 # set container’s working directory
 WORKDIR /app
