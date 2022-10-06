@@ -76,7 +76,7 @@
 // localhost:8080
 // https://appname.tjmcode.io:8080
 const appPort = parseInt(`${process.env.APP_BACKEND_PORT}`);
-const appUrl = `http://${process.env.APP_SUBDOMAIN}:${appPort}`;
+const appUrl = `https://${process.env.APP_SUBDOMAIN}:${appPort}`;
 
 // #endregion
 

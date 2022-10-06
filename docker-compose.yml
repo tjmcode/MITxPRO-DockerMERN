@@ -103,7 +103,7 @@ services:
     # use the shared .env file for all 3 Tiers
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
-      - .\.env.${NODE_ENV:-development}  # "development" or "production"
+      - .\.env.${NODE_ENV:-development}  # "development" to override the "production" vars in the 'Dockerfile'
     build:
       context: frontend  # build from \frontend
       args:
@@ -125,7 +125,7 @@ services:
     # use the shared .env file for all 3 Tiers
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
-      - .\.env.${NODE_ENV:-development}  # "development" or "production"
+      - .\.env.${NODE_ENV:-development}  # "development" to override the "production" vars in the 'Dockerfile'
     build:
       context: backend  # build from \backend
       args:
@@ -148,7 +148,7 @@ services:
     # use the shared .env file for all 3 Tiers
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
-      - .\.env.${NODE_ENV:-development}  # "development" or "production"
+      - .\.env.${NODE_ENV:-development}  # "development" to override the "production" vars in the 'Dockerfile'
     build:
       context: database  # build from \database
       args:

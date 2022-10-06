@@ -35,6 +35,7 @@
 #
 #  13-Aug-2022   TJM-MCODE  {0001}    New file for learning DOCKER-ization.
 #  27-Sep-2022   TJM-MCODE  {0002}    Updated to use .env APP_* variables.
+#  06-Oct-2022   TJM-MCODE  {0003}    Added in '.env.production' ENV VARs as defaults to be overriden by the 'docker-compose.yml'
 #
 #
 #
@@ -44,7 +45,7 @@ FROM node:14-slim
 # signature
 LABEL ${APP_NAME}.frontend.constructor=${APP_CONSTRUCTOR}
 #
-# default all our ENVIRONMENT VARIABLES to 'Production'
+# default all our ENVIRONMENT VARIABLES to '.env.production' values
 # these of overriden by the 'Docker-Compose.yml' during development
 ENV \
     # REACT_APP_ENV
