@@ -57,19 +57,19 @@ ENV \
     #
     # APP_SUBDOMAIN - the name of the sub-doomain hosting the App used throughout the build and the JS code.
     # ${APP_NAME}.${APP_DOMAIN} or localhost for development
-    APP_SUBDOMAIN=appname.tjmcode.io \
+    APP_SUBDOMAIN=${APP_NAME}.${APP_DOMAIN} \
     #
     # REACT_APP_SUBDOMAIN - the same name made accessible in the React App Front-end
     # should be equal to ${APP_SUBDOMAIN}
-    REACT_APP_SUBDOMAIN=appname.tjmcode.io \
+    REACT_APP_SUBDOMAIN=${APP_NAME}.${APP_DOMAIN} \
     #
     # REACT_APP_BACKEND_PORT - taken from the standard .env file into a REACT_APP_* var for the Front-End
     # should be equal to ${APP_BACKEND_PORT}
     REACT_APP_BACKEND_PORT=8080 \
     #
-    # REACT_APP_BACKEND_POINT - taken from the standard .env file into a REACT_APP_* var for the Front-End
-    # should be equal to ${APP_BACKEND_POINT}
-    REACT_APP_BACKEND_POINT="/backend"
+    # REACT_APP_BACKEND_URL - taken from the standard .env file into a REACT_APP_* var for the Front-End
+    # should be equal to ${APP_BACKEND_URL}
+    REACT_APP_BACKEND_URL=https://${APP_NAME}.${APP_DOMAIN}/backend
 #
 # expose port and start the application
 EXPOSE ${APP_DATABASE_PORT:-27017}

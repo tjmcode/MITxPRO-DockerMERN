@@ -89,10 +89,10 @@ require('dotenv').config();
 // #region  C O N S T A N T S
 
 //    localhost:8080 for development
-//    http://appname.tjmcode.io/backend for frontend
+//    https://appname.tjmcode.io/backend for frontend
 // or http://appname.tjmcode.io:8080 for backend
 //
-const apiUrl = `http://${process.env.REACT_APP_SUBDOMAIN}${process.env.REACT_APP_BACKEND_POINT}`;
+const apiUrl = `${process.env.REACT_APP_BACKEND_URL}`;
 
 // #endregion
 
