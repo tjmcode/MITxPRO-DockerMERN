@@ -80,6 +80,13 @@
 #           https://builtin.com/software-engineering-perspectives/docker-compose-environment-variables
 #
 #
+#       NOTES:
+#       ------
+#
+#       To remove the volume holding the MongoDB use the command:
+#
+#       > docker volume rm mongodata
+#
 #
 #
 #       MODIFICATIONS:
@@ -156,9 +163,15 @@ services:
         NODE_ENV: ${NODE_ENV:-development}
     ports:
       - '${APP_DATABASE_PORT:-27017}:${APP_DATABASE_PORT:-27017}'
+    volumes:
+      - mongodata:/data/db  # persistent our database in a volume
     restart: always
     networks:
       - express-mongo  # backend to database connection
+#
 networks:
   react-express:
   express-mongo:
+#
+volumes:
+  mongodata:  # our MongoDB storage
