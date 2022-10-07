@@ -43,7 +43,7 @@
 FROM mongo
 #
 # signature
-LABEL ${APP_NAME}.database.constructor=${APP_CONSTRUCTOR}
+LABEL ${APP_NAME:-appname}.frontend.constructor=${APP_CONSTRUCTOR:-tmcguire@mcode.com}
 #
 # default all our ENVIRONMENT VARIABLES to '.env.production' values
 # these of overriden by the 'Docker-Compose.yml' during development
@@ -57,11 +57,11 @@ ENV \
     #
     # APP_SUBDOMAIN - the name of the sub-doomain hosting the App used throughout the build and the JS code.
     # ${APP_NAME}.${APP_DOMAIN} or localhost for development
-    APP_SUBDOMAIN=${APP_NAME}.${APP_DOMAIN} \
+    APP_SUBDOMAIN=appname.tjmcode.io \
     #
     # REACT_APP_SUBDOMAIN - the same name made accessible in the React App Front-end
     # should be equal to ${APP_SUBDOMAIN}
-    REACT_APP_SUBDOMAIN=${APP_NAME}.${APP_DOMAIN} \
+    REACT_APP_SUBDOMAIN=appname.tjmcode.io \
     #
     # REACT_APP_BACKEND_PORT - taken from the standard .env file into a REACT_APP_* var for the Front-End
     # should be equal to ${APP_BACKEND_PORT}
@@ -69,7 +69,7 @@ ENV \
     #
     # REACT_APP_BACKEND_URL - taken from the standard .env file into a REACT_APP_* var for the Front-End
     # should be equal to ${APP_BACKEND_URL}
-    REACT_APP_BACKEND_URL=https://${APP_NAME}.${APP_DOMAIN}/backend
+    REACT_APP_BACKEND_URL=https://appname.tjmcode.io/backend
 #
 # expose port and start the application
 EXPOSE ${APP_DATABASE_PORT:-27017}
