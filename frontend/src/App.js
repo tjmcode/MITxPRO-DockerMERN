@@ -208,6 +208,7 @@ class App extends Component
         return (
             <div className="App">
                 <Container fluid>
+
                     <header className="App-header">
                         <img src={logo} className="App-logo" alt="logo" />
                     </header>
@@ -251,6 +252,7 @@ class App extends Component
                             </tbody>
                         </Table>
                     </div>
+
                 </Container>
             </div>
         );

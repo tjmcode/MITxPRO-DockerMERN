@@ -31,8 +31,8 @@
 #
 #       o  While I could just call for a standard 'mongo' image from 'backend' I chose to
 #          create a seperate folder and 'dockerfile' to do so, so I could build the (3) containers
-#          in a consistent manner. (The lack of a 'database' folder and dockfile threw me when
-#          I first looked at 3-Tier App examples, i.e.: Where is the dockfile for the 3rd Tier?).
+#          in a consistent manner. (The lack of a 'database' folder and dockerfile threw me when
+#          I first looked at other 3-Tier App examples, i.e.: Where is the dockfile for the 3rd Tier?).
 #          So I figured out how to invoke it just like 'frontend/client' and 'backend/server'. Hail CAESAR.
 #
 #
