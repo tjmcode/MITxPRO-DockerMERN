@@ -189,4 +189,4 @@ networks:
   express-mongo:
 #
 volumes:
-  mongodata:  # our MongoDB storage
+  ${APP_NAME}-volume:  # our MongoDB storage volume
