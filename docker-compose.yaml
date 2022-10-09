@@ -179,7 +179,7 @@ services:
     ports:
       - '${APP_DATABASE_PORT:-27017}:${APP_DATABASE_PORT:-27017}'
     volumes:
-      - ${APP_NAME}-volume:/data/db  # persistent our database in a volume
+      - mongodata:/data/db  # persistent our database in a volume
     restart: always
     networks:
       - express-mongo  # backend to database connection
@@ -189,4 +189,4 @@ networks:
   express-mongo:
 #
 volumes:
-  ${APP_NAME}-volume:  # our MongoDB storage volume
+  mongodata:  # our MongoDB storage volume

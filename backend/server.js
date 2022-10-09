@@ -190,9 +190,17 @@ app.get(`/user-create`, async (req, res) =>
             password: faker.internet.password(),
         });
 
-    await user.save().then(() => mcode.log(`User [${user.username}] was created in database.`, logSource, `Information`));
+    try
+    {
+        await user.save().then(() => mcode.log(`User [${user.username}] was created in database.`, logSource, `Information`));
+        res.send(`User [${user.username}] was created.\n`);
+    }
+    catch
+    {
+        mcode.log(`Creation of User [${user.username}] failed, check MongoDB.`, logSource, `Error`);
+        res.send(`Creation of User [${user.username}] failed, check MongoDB.\n`);
+    }
 
-    res.send(`User [${user.username}] was created.\n`);
 });
 
 /**
