@@ -79,13 +79,28 @@
 #           by Estefania Gallardo
 #           https://builtin.com/software-engineering-perspectives/docker-compose-environment-variables
 #
+#       11. Use Volumes
+#           by Docker
+#           https://docs.docker.com/storage/volumes/
+#
+#
 #
 #       NOTES:
 #       ------
 #
-#       To remove the volume holding the MongoDB use the command:
+#       o  To create a volume use teh command:
 #
-#       > docker volume rm mongodata
+#           $  docker volume create [volume-name]
+#
+#       o  To remove the volume holding the MongoDB use the command:
+#
+#           $ docker volume rm [volume-name]
+#
+#       o  To examine the volume holding the MongoDB use the command:
+#
+#           $ docker volume inspect [volume-name]
+#
+#       o  If you start a container with a volume the does not exist Docker creates one for you.
 #
 #
 #
@@ -164,7 +179,7 @@ services:
     ports:
       - '${APP_DATABASE_PORT:-27017}:${APP_DATABASE_PORT:-27017}'
     volumes:
-      - mongodata:/data/db  # persistent our database in a volume
+      - ${APP_NAME}-volume:/data/db  # persistent our database in a volume
     restart: always
     networks:
       - express-mongo  # backend to database connection

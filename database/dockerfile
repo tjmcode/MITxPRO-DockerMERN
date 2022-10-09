@@ -45,8 +45,8 @@ FROM mongo
 # signature
 LABEL ${APP_NAME:-appname}.frontend.constructor=${APP_CONSTRUCTOR:-tmcguire@mcode.com}
 #
-# default all our ENVIRONMENT VARIABLES to '.env.production' values
-# these of overriden by the 'Docker-Compose.yml' during development
+# default all required ENVIRONMENT VARIABLES to '.env.production' values
+# these of overridden by the 'Docker-Compose.yaml' during development
 ENV \
     # REACT_APP_ENV
     REACT_APP_ENV=production \
