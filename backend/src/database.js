@@ -91,7 +91,7 @@ var logSource = path.basename(__filename);
 
 // #region  E X E C U T I O N
 
-// log in sorted order
+// log the environment variables in sorted order
 const envSorted = Object.keys(process.env)
     .sort()
     .reduce((accumulator, key) =>

@@ -1,5 +1,5 @@
 #       Title:    MicroCODE Docker Compose File for MERN App STACK
-#       Module:   Modules (./docker-compose.yml)
+#       Module:   Modules (./docker-compose.yaml)
 #       Customer: MITxPRO MERN Course
 #       Creator:  MicroCODE Incorporated
 #       Date:     September 2022
@@ -184,7 +184,7 @@ services:
     ports:
       - '${APP_DATABASE_PORT:-27017}:${APP_DATABASE_PORT:-27017}'
     volumes:
-      - appname-mongodata:/data/db  # persistent our database in a volume -- NOTE: can't use ${APP_NAME} here
+      - appname-mongodata:/data/db  # persist our database in a volume -- NOTE: can't use ${APP_NAME} here
     restart: always
     networks:
       - express-mongo  # backend to database connection
