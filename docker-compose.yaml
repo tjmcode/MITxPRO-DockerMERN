@@ -115,6 +115,11 @@
 #
 version: '3'
 #
+#
+volumes:
+  appname-mongodata:  # our MongoDB storage volume -- NOTE: can't use ${APP_NAME} here
+    external: true  # keep after Containers are destroyed
+#
 services:
   #
   #  F R O N T E N D
@@ -179,7 +184,7 @@ services:
     ports:
       - '${APP_DATABASE_PORT:-27017}:${APP_DATABASE_PORT:-27017}'
     volumes:
-      - mongodata:/data/db  # persistent our database in a volume
+      - appname-mongodata:/data/db  # persistent our database in a volume -- NOTE: can't use ${APP_NAME} here
     restart: always
     networks:
       - express-mongo  # backend to database connection
@@ -188,5 +193,3 @@ networks:
   react-express:
   express-mongo:
 #
-volumes:
-  mongodata:  # our MongoDB storage volume
