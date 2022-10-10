@@ -33,17 +33,18 @@ envs:
 name: appname
 region: nyc
 services:
-- http_port: 27017
+- http_port: 3000
   image:
     registry: tjmcode
     registry_type: DOCKER_HUB
-    repository: appname-database
+    repository: appname-frontend
     tag: latest
   instance_count: 1
   instance_size_slug: professional-xs
-  name: appname-database
+  name: appname-frontend
   routes:
-  - path: /database
+  - path: /
+  - path: /frontend
 - http_port: 8080
   image:
     registry: tjmcode
@@ -55,15 +56,14 @@ services:
   name: appname-backend
   routes:
   - path: /backend
-- http_port: 3000
+- http_port: 27017
   image:
     registry: tjmcode
     registry_type: DOCKER_HUB
-    repository: appname-frontend
+    repository: appname-database
     tag: latest
   instance_count: 1
   instance_size_slug: professional-xs
-  name: appname-frontend
+  name: appname-database
   routes:
-  - path: /frontend
-  - path: /
+  - path: /database
