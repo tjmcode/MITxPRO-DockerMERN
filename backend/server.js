@@ -77,8 +77,8 @@
 //    https://appname.tjmcode.io/backend for frontend
 // or https://appname.tjmcode.io:8080 for backend
 //
-const appPort = parseInt(`${process.env.APP_BACKEND_PORT}`);
-const appUrl = `https://${process.env.APP_SUBDOMAIN}:${appPort}`;
+const APP_PORT = parseInt(`${process.env.APP_BACKEND_PORT}`);
+const APP_URL = `https://${process.env.APP_SUBDOMAIN}:${APP_PORT}`;
 
 // #endregion
 
@@ -243,11 +243,11 @@ app.get(`/users`, async (req, res) =>
 
 // Startup Server
 // Define a LISTENER with a simple Callback function that logs a response in the console...
-app.listen(appPort, function ()
+app.listen(APP_PORT, function ()
 {
     // show that our listener is alive
-    mcode.log(`Running on Port: ${appPort}!  Path: ${appUrl}`, logSource, `Information`);
-    mcode.log(`Attempting Database connection: ${appUrl}`, logSource, `Waiting`);
+    mcode.log(`Running on Port: ${APP_PORT}!  Path: ${APP_URL}`, logSource, `Information`);
+    mcode.log(`Attempting Database connection: ${APP_URL}`, logSource, `Waiting`);
 
     try
     {
@@ -256,7 +256,7 @@ app.listen(appPort, function ()
     }
     catch
     {
-        mcode.log(`Database connection failed: ${appUrl}`, logSource, `Error`);
+        mcode.log(`Database connection failed: ${APP_URL}`, logSource, `Error`);
     }
 });
 

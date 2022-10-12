@@ -71,6 +71,15 @@ var logSource = path.basename(__filename);
 
 // #region  C O N S T A N T S
 
+// for running native on local machine
+// const DB_URL = 'mongodb://localhost:27017/appname';
+// const DB_URL = 'mongodb://appname.tjmcode.io:27017/appname';
+
+// for running in a Docker Container that's running a HOST named "mongo"
+// NOTE: This "mongo" is *not* the Docker Container Name!
+//                  mondodb://hostname:port/appname
+const DB_URL = `mongodb://${process.env.APP_NAME}-database:${process.env.APP_DATABASE_PORT}/${process.env.APP_NAME}`;
+
 // #endregion
 
 // #region  P R I V A T E   F I E L D S
@@ -102,16 +111,7 @@ const envSorted = Object.keys(process.env)
 
 mcode.log(`process.env (sorted):${mcode.simplifyText(JSON.stringify(envSorted))}`, logSource, `Information`);
 
-// for running native on local machine
-// const connection = 'mongodb://localhost:27017/appname';
-// const connection = 'mongodb://appname.tjmcode.io:27017/appname';
-
-// for running in a Docker Container that's running a HOST named "mongo"
-// NOTE: This "mongo" is *not* the Docker Container Name!
-//                  mondodb://hostname:port/appname
-const connection = `mongodb://${process.env.APP_NAME}-database:${process.env.APP_DATABASE_PORT}/${process.env.APP_NAME}`;
-
-mcode.log(`Database Connection Path: ${connection}`, logSource, `Information`);
+mcode.log(`Database Connection Path: ${DB_URL}`, logSource, `Information`);
 
 const connectDB = () =>
 {
@@ -119,7 +119,7 @@ const connectDB = () =>
 
     try
     {
-        dbConnectionStatus = mongoose.connect(connection, {useNewUrlParser: true, useUnifiedTopology: true});
+        dbConnectionStatus = mongoose.connect(DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
         mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `Information`);
     }
     catch
