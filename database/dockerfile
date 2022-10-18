@@ -72,6 +72,7 @@ ENV \
     REACT_APP_BACKEND_URL=https://appname.tjmcode.io/backend
 #
 # expose port and start the application
-EXPOSE ${APP_DATABASE_PORT:-27017}
+EXPOSE ${APP_DATABASE_PORT:-27020}
 #
+
 CMD ["mongod"]

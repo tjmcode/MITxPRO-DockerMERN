@@ -83,12 +83,25 @@
 #           by Docker
 #           https://docs.docker.com/storage/volumes/
 #
+#       12. How To Solve Module Not Found Can’t Resolve ‘fs’ in Next.js
+#           by Maikel Venn
+#           https://maikelveen.com/blog/how-to-solve-module-not-found-cant-resolve-fs-in-nextjs
+#
+#       13. How to use docker-compose, volumes, networks, and more
+#           by Dvir Segal
+#           Complete Docker Course is linked in...
+#           https://faun.pub/how-to-use-docker-compose-volumes-networks-and-more-24f82169c077
+#
+#       14: Back Up and Share Docker Volumes with this Extension
+#           by Felipe Cruz
+#           https://www.docker.com/blog/back-up-and-share-docker-volumes-with-this-extension/
+#
 #
 #
 #       NOTES:
 #       ------
 #
-#       o  To create a volume use teh command:
+#       o  To create a volume use the command:
 #
 #           $  docker volume create [volume-name]
 #
@@ -115,15 +128,31 @@
 #
 version: '3'
 #
+#  V O L U M E S -- NOTE: can't use ${APP_NAME} here, and internal are auto-prefixed with <appname>_<name-specified>
+#                         with <appname>_<name-specified> if you don't use [name: <volume-name>]
+#  -------------
 #
 volumes:
-  appname-mongodata:  # our MongoDB storage volume -- NOTE: can't use ${APP_NAME} here
-    external: true  # keep after Containers are destroyed
+  frontend-volume:  # our Frontend/Client execution volume
+    name: "appname-frontend"
+    external: false  # temporary, build specific
+#
+  backend-volume:  # our Backend/Server execution volume
+    name: "appname-backend"
+    external: false  # temporary, build specific
+#
+  database-volume:  # our Database configuration volume
+    name: "appname-database"
+    external: false  # temporary, build specific
+#
+  mongodb-volume:  # our Database/MongoDB storage volume
+    name: "appname-mongodb"
+    external: true  # keep after all Containers are destroyed
 #
 services:
-  #
-  #  F R O N T E N D
-  #  ---------------
+#
+#  F R O N T E N D
+#  ---------------
   frontend:
     # frontend, client, app ui
     container_name: ${APP_NAME}-frontend
@@ -138,14 +167,16 @@ services:
         NODE_ENV: ${NODE_ENV:-development}
     ports:
       - '${APP_FRONTEND_PORT:-3000}:3000'
+    volumes:
+      - frontend-volume:/exe/frontend  # temporary volume
     restart: always
     networks:
       - react-express  # frontend to backend connection
     depends_on:
       - backend
-  #
-  #  B A C K E N D
-  #  -------------
+#
+#  B A C K E N D
+#  -------------
   backend:
     # backend, server, app internals
     container_name: ${APP_NAME}-backend
@@ -160,15 +191,17 @@ services:
         NODE_ENV: ${NODE_ENV:-development}
     ports:
       - '${APP_BACKEND_PORT:-8080}:8080'
+    volumes:
+      - backend-volume:/exe/backend  # temporary volume
     restart: always
     networks:
       - react-express  # frontend to backend connection
       - express-mongo  # backend to database connection
     depends_on:
       - database
-  #
-  #  D A T A B A S E
-  #  ---------------
+#
+#  D A T A B A S E
+#  ---------------
   database:
     # database, db, data store, app persistent data
     container_name: ${APP_NAME}-database
@@ -182,9 +215,10 @@ services:
         APP_NAME: ${APP_NAME}
         NODE_ENV: ${NODE_ENV:-development}
     ports:
-      - '${APP_DATABASE_PORT:-27017}:27017'
+      - '${APP_DATABASE_PORT:-27020}:27017'
     volumes:
-      - appname-mongodata:/data/db  # persist our database in a volume -- NOTE: can't use ${APP_NAME} here
+      - database-volume:/data/configdb  # temporary volume -- NOTE: /data/configdb/ is the path required by MongoDB
+      - mongodb-volume:/data/db  # persist our database in this volume -- NOTE: /data/db/ is the path required by MongoDB
     restart: always
     networks:
       - express-mongo  # backend to database connection

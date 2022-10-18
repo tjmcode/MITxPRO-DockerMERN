@@ -78,7 +78,11 @@ var logSource = path.basename(__filename);
 // for running in a Docker Container that's running a HOST named "mongo"
 // NOTE: This "mongo" is *not* the Docker Container Name!
 //                  mondodb://hostname:port/appname
+//const DB_URL = `mongodb://${process.env.APP_NAME}-database:${process.env.APP_DATABASE_PORT}/${process.env.APP_NAME}`;
+//*const DB_URL = `mongodb://mongo:${process.env.APP_DATABASE_PORT}/${process.env.APP_NAME}-database`;
 const DB_URL = `mongodb://${process.env.APP_NAME}-database:${process.env.APP_DATABASE_PORT}/${process.env.APP_NAME}`;
+
+const DB_NAME = `${process.env.APP_DATABASE_NAME}`;
 
 // #endregion
 
@@ -100,7 +104,7 @@ const DB_URL = `mongodb://${process.env.APP_NAME}-database:${process.env.APP_DAT
 
 // #region  E X E C U T I O N
 
-// log the environment variables in sorted order
+// log our Environment Variables in sorted order for reference
 const envSorted = Object.keys(process.env)
     .sort()
     .reduce((accumulator, key) =>
@@ -109,23 +113,23 @@ const envSorted = Object.keys(process.env)
         return accumulator;
     }, {});
 
-mcode.log(`process.env (sorted):${mcode.simplifyText(JSON.stringify(envSorted))}`, logSource, `Information`);
+mcode.log(`Database: init - process.env (sorted):${JSON.stringify(envSorted)}`, logSource, `info`);
 
-mcode.log(`Database Connection Path: ${DB_URL}`, logSource, `Information`);
+mcode.log(`Database Connection Path: ${DB_URL}`, logSource, `info`);
 
 const connectDB = () =>
 {
-    var dbConnectionStatus = false;
+    var dbConnectionStatus = null;
 
     try
     {
         dbConnectionStatus = mongoose.connect(DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
-        mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `Information`);
+        mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `info`);
     }
     catch
     {
-        dbConnectionStatus = false;
-        mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `Error`);
+        dbConnectionStatus = null;
+        mcode.log(`Database Connection Status: ${dbConnectionStatus}`, logSource, `error`);
     }
 
     return dbConnectionStatus;

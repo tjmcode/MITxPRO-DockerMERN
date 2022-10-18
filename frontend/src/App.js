@@ -139,7 +139,7 @@ class App extends Component
 
     async createUser()
     {
-        log(`Attempting Create User: ${apiUrl}/user-create`, logSource, `Waiting`);
+        log(`Attempting Create User: ${apiUrl}/user-create`, logSource, `wait`);
 
         try
         {
@@ -148,13 +148,13 @@ class App extends Component
         }
         catch
         {
-            log(`Create User failed: ${apiUrl}/user-create`, logSource, `Error`);
+            log(`Create User failed: ${apiUrl}/user-create`, logSource, `error`);
         }
     }
 
     async deleteAllUsers()
     {
-        log(`Attempting Delete All Users: ${apiUrl}/users-delete`, logSource, `Waiting`);
+        log(`Attempting Delete All Users: ${apiUrl}/users-delete`, logSource, `wait`);
 
         try
         {
@@ -165,13 +165,13 @@ class App extends Component
         }
         catch
         {
-            log(`Delete All Users failed: ${apiUrl}/users-delete`, logSource, `Error`);
+            log(`Delete All Users failed: ${apiUrl}/users-delete`, logSource, `error`);
         }
     }
 
     async loadUsers()
     {
-        log(`Attempting to Load All Users: ${apiUrl}/users`, logSource, `Waiting`);
+        log(`Attempting to Load All Users: ${apiUrl}/users`, logSource, `wait`);
 
         try
         {
@@ -180,12 +180,12 @@ class App extends Component
                 users: res.data
             });
 
-            log(`Load All Users succeeded: ${apiUrl}/users`, logSource, `Information`);
-            log(`users:${simplifyText(JSON.stringify(this.state.users))}`, logSource, `Information`);
+            log(`Load All Users succeeded: ${apiUrl}/users`, logSource, `info`);
+            log(`users:${simplifyText(JSON.stringify(this.state.users))}`, logSource, `info`);
         }
         catch
         {
-            log(`Load All Users failed: ${apiUrl}/users`, logSource, `Error`);
+            log(`Load All Users failed: ${apiUrl}/users`, logSource, `error`);
         }
     }
 

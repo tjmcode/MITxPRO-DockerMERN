@@ -42,6 +42,10 @@
  *      1.  List of ANSI Color Escape Sequences
  *          https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
  *
+ *      2.  Showing Line Numbers in console.log from Node.js
+ *          https://stackoverflow.com/questions/45395369/how-to-get-console-log-line-numbers-shown-in-nodejs
+ *
+ *
  *
  *
  *      MODIFICATIONS:
@@ -54,6 +58,7 @@
  *  04-May-0222   TJM-MCODE  {0003}    Corrected `month` in timeStamp.
  *  03-Oct-2022   TJM-MCODE  {0004}    Added `log()` to simplify console logging of app events.
  *  03-Oct-2022   TJM-MCODE  {0005}    Added use of `vt` for colorizing Console Log entries.
+ *  16-Oct-2022   TJM-MCODE  {0006}    Added 'success' as a severity.
  *
  *
  *
@@ -66,30 +71,13 @@
 // #region  J A V A S C R I P T
 // #region  C O D E   F O L D I N G
 
-// #region  F U N C T I O N S – P U B L I C
+// #region  C O N S T A N T S
 
 /**
- * log() -- function to log App Events to the Console in a standardized format.
- *
- * Example from our other Apps:
- ++
-   Message: `Station SYNCHRONIZED to new Job from TRACKING IMAGE`
-
-       Class: JobIdZone                                  Audience: Operator
-      Object: 8                                         Condition: Takt=[0%]  Memory in use=[1,659,216.00]
-       Event: 14                                         Severity: Confirmation
-     Targets: AppLog, AppBanner, AppDatabase, AppSound
-
-       Event: (see `Message:` above)                      Time: Tuesday, August 10, 2021 06:57:47.623 AM
-       Class: MicroCODE.AppBanner                         Type: App.Information                              CSN:[1GA4174210 ]
---
- *
- * @param {string} message pre-formatted message to be logged.
- * @param {string} source where the message orginated.
- * @param {string} severity Event.Severity: Information, Warning, Error, Fatal.
- * @api public
- *
- *
+ * @const vt
+ * @memberof mcodeClient
+ * @desc Colors constants for changing Console appearance ala DEC`s VT52 + VT100 + VT220.
+ * @example
     ANSI Color Escape Sequence
 
     \x1b[***m  -- where `***` is a series of command codes separated by semi-colons (;).
@@ -137,62 +125,91 @@
     90–97	Set bright foreground color	aixterm (not in standard)
     100–107	Set bright background color	aixterm (not in standard)
  *
+ */
+var vt =
+{
+    // special effects
+    reset: "\x1b[0m",
+    bright: "\x1b[1m",
+    dim: "\x1b[2m",
+    underscore: "\x1b[4m",
+    blink: "\x1b[5m",
+    reverse: "\x1b[7m",
+    hidden: "\x1b[8m",
+
+    // foreground color
+    fg: {
+        black: "\x1b[30m",
+        red: "\x1b[31m",
+        green: "\x1b[32m",
+        yellow: "\x1b[33m",
+        blue: "\x1b[34m",
+        magenta: "\x1b[35m",
+        cyan: "\x1b[36m",
+        white: "\x1b[37m",
+        crimson: "\x1b[38m"
+    },
+
+    // background color
+    bg: {
+        black: "\x1b[40m",
+        red: "\x1b[41m",
+        green: "\x1b[42m",
+        yellow: "\x1b[43m",
+        blue: "\x1b[44m",
+        magenta: "\x1b[45m",
+        cyan: "\x1b[46m",
+        white: "\x1b[47m",
+        crimson: "\x1b[48m"
+    },
+
+    // Extended 256-Color codes
+    gray: "\x1b[38;5;255m",  // `Set Foreground Color` -- 5; means 256 Color Code follows
+
+    // custom event colors
+    errr: "\x1b[31m",  // red
+    good: "\x1b[32m",  // green
+    warn: "\x1b[33m",  // yellow
+    cold: "\x1b[34m",  // blue
+    dead: "\x1b[35m",  // magenta
+    info: "\x1b[36m",  // cyan
+    hmmm: "\x1b[37m",  // white
+    uggh: "\x1b[38m",  // crimson
+};
+
+// #endregion
+
+// #region  F U N C T I O N S – P U B L I C
+
+/**
+ * @func log
+ * @memberof mcodeClient
+ * @desc Logs App Events to the Console in a standardized format.
+ * @api public
+ * @param {string} message pre-formatted message to be logged.
+ * @param {string} source where the message orginated.
+ * @param {string} severity Event.Severity: 'info', 'warn', 'error', 'fatal', and 'success'.
+ * @returns {string} "{severiy}: {message}" for display in UI.
  *
+ * @example
+ * From our other MicroCODE Apps:
+ ++
+   Message: `Station SYNCHRONIZED to new Job from TRACKING IMAGE`
+
+       Class: JobIdZone                                  Audience: Operator
+      Object: 8                                         Condition: Takt=[0%]  Memory in use=[1,659,216.00]
+       Event: 14                                         Severity: Confirmation
+     Targets: AppLog, AppBanner, AppDatabase, AppSound
+
+       Event: (see `Message:` above)                      Time: Tuesday, August 10, 2021 06:57:47.623 AM
+       Class: MicroCODE.AppBanner                         Type: App.Information                              CSN:[1GA4174210 ]
+--
  */
 function log(message, source, severity)
 {
     let logifiedMessage = ``;
 
-    // Colors constants for changing Console appearance ala DEC`s VT52 + VT100 + VT220.
-    var vt =
-    {
-        // special effects
-        reset: "\x1b[0m",
-        bright: "\x1b[1m",
-        dim: "\x1b[2m",
-        underscore: "\x1b[4m",
-        blink: "\x1b[5m",
-        reverse: "\x1b[7m",
-        hidden: "\x1b[8m",
-
-        // foreground color
-        fg: {
-            black: "\x1b[30m",
-            red: "\x1b[31m",
-            green: "\x1b[32m",
-            yellow: "\x1b[33m",
-            blue: "\x1b[34m",
-            magenta: "\x1b[35m",
-            cyan: "\x1b[36m",
-            white: "\x1b[37m",
-            crimson: "\x1b[38m"
-        },
-
-        // background color
-        bg: {
-            black: "\x1b[40m",
-            red: "\x1b[41m",
-            green: "\x1b[42m",
-            yellow: "\x1b[43m",
-            blue: "\x1b[44m",
-            magenta: "\x1b[45m",
-            cyan: "\x1b[46m",
-            white: "\x1b[47m",
-            crimson: "\x1b[48m"
-        },
-
-        // Extended 256-Color codes
-        gray: "\x1b[38;5;255m",  // `Set Foreground Color` -- 5; means 256 Color Code follows
-
-        // custom event colors
-        info: "\x1b[36m",  // cyan
-        warn: "\x1b[33m",  // yellow
-        errr: "\x1b[31m",  // red
-        dead: "\x1b[35m",  // magenta
-        hmmm: "\x1b[37m",  // white
-    };
-
-    if (isJson(message))
+    if (hasJson(message))
     {
         logifiedMessage = logifyText(message);
     }
@@ -201,21 +218,24 @@ function log(message, source, severity)
         logifiedMessage = message;
     }
 
-    console.log(vt.reset + `++`);
+    console.log(vt.reset + vt.gray + `++`);
 
     switch (severity)
     {
-        case `Information`:
+        case `info`:
             console.log(vt.info + `ℹ ｢mcode｣:'${logifiedMessage}'`);
             break;
-        case `Warning`:
+        case `warn`:
             console.log(vt.warn + `⚠ ｢mcode｣:'${logifiedMessage}'`);
             break;
-        case `Error`:
+        case `error`:
             console.log(vt.errr + `✖ ｢mcode｣:'${logifiedMessage}'`);
             break;
-        case `Fatal`:
+        case `fatal`:
             console.log(vt.dead + `✖ ｢mcode｣:'${logifiedMessage}'`);
+            break;
+        case `success`:
+            console.log(vt.good + `✓ ｢mcode｣:'${logifiedMessage}'`);
             break;
         default:
             console.log(vt.hmmm + `❔ ｢mcode｣:'${logifiedMessage}'`);
@@ -227,15 +247,61 @@ function log(message, source, severity)
         vt.gray + `from: ` + vt.reset + `frontend ${source}    ` +
         vt.gray + `severity: ` + vt.reset + `${severity}`);
 
-    console.log(`--` + vt.reset);
+    console.log(vt.gray + `--` + vt.reset);
 
-    return true;  // logged
+    return `${severity}: ` + message;  // for caller to return
 };
 
 /**
- * timestamp() -- function to generate timestamp string: YYYY-MM-DD HH:MM:SS.mmm.
- * @returns  {String} "YYYY-MM-DD HH:MM:SS.mmm".
+ * @func exp
+ * @memberof mcodeClient
+ * @desc Exceptions to the Console in a standardized format.
  * @api public
+ * @param {string} message pre-formatted message to be logged.
+ * @param {string} source where the message orginated.
+ * @param {string} exception the underlying exception message that was caught.
+ * @returns {string} "message: {message} - exception: {exception}" for display in UI.
+ *
+ */
+function exp(message, source, exception)
+{
+    let logifiedMessage = ``;
+
+    if (hasJson(message))
+    {
+        logifiedMessage = logifyText(message);
+    }
+    else
+    {
+        logifiedMessage = message;
+    }
+
+    // Exceptions are always logged as 'Fatal'
+    console.group(`exception`);
+    console.log(vt.reset + vt.gray + `++`);
+    console.log(vt.dead + `✖ ｢mcode｣:'${logifiedMessage}'`);
+    console.log(vt.dead + `exception: ` + vt.dead + `${exception}`);
+    console.log(
+        vt.gray + `     ` + vt.reset +
+        vt.gray + `time: ` + vt.reset + `${timeStamp()}    ` +
+        vt.gray + `from: ` + vt.reset + `backend ${source}    ` +
+        vt.gray + `severity: ` + vt.reset + `fatal`);
+    console.log(vt.dead);
+    console.groupCollapsed(`trace`);
+    console.trace();
+    console.groupEnd();
+    console.log(vt.gray + `--`);
+    console.groupEnd();
+
+    return `message: ` + message + ` - exception: ` + exception;  // for caller to return
+};
+
+/**
+ * @func timestamp
+ * @memberof mcodeClient
+ * @desc Generates timestamp string: YYYY-MM-DD HH:MM:SS.mmm.
+ * @api public
+ * @returns {string} "YYYY-MM-DD HH:MM:SS.mmm".
  */
 function timeStamp()
 {
@@ -260,11 +326,12 @@ function timeStamp()
 };
 
 /**
- * simplifyText() -- Strips a string of BRACES, BRACKETS, QUOTES, etc.
- *
+ * @func simplifyText
+ * @memberof mcodeClient
+ * @desc Strips a string of BRACES, BRACKETS, QUOTES, etc.
+ * @api public
  * @param {string} textToSimplify the string to be simplified to data
  * @returns {string} the simplified text
- * @api public
  */
 function simplifyText(textToSimplify)
 {
@@ -298,14 +365,17 @@ function simplifyText(textToSimplify)
 };
 
 /**
- * logifyText() -- Formats a string of BRACES, BRACKETS, QUOTES, for display in the EVENT LOG.
- *
- * @param {string} textToLogiify the string to be formatted for the event log
- * @returns {string} the logified text
+ * @func logifyText
+ * @memberof mcodeClient
+ * @desc Formats a string of BRACES, BRACKETS, QUOTES, for display in the EVENT LOG.
+ * No formatting occurs until the opening brace '{' of the JSON Data.
  * @api public
+ * @param {string} textToLogify the string to be formatted for the event log
+ * @returns {string} the logified text
  */
-function logifyText(textToLogiify)
+function logifyText(textToLogify)
 {
+    let inJson = false;
     let logifiedText = ``;
     let firstColon = true;
     let tabStop = 0;
@@ -327,63 +397,78 @@ function logifyText(textToLogiify)
         return newline;
     };
 
-    for (let i = 0; i < textToLogiify.length; i++)
+    for (let i = 0; i < textToLogify.length; i++)
     {
-        switch (textToLogiify[i])
+        if (!inJson)
         {
-            case `{`:
-                logifiedText += indent() + `{`;
-                lineEmpty = false;
-                tabStop++;
-                logifiedText += indent();
-                break;
-            case `[`:
-                logifiedText += indent() + `[`;
-                lineEmpty = false;
-                tabStop++;
-                logifiedText += indent();
-                break;
-            case `}`:
-                tabStop--;
-                logifiedText += indent() + `}`;
-                firstColon = true;
-                lineEmpty = false;
-                break;
-            case `]`:
-                tabStop--;
-                logifiedText += indent() + `]`;
-                firstColon = true;
-                lineEmpty = false;
-                break;
-            case `,`:
-                logifiedText += indent();
-                firstColon = true;
-                lineEmpty = true;
-                break;
-            case `"`:
-                break;
-            case `:`:
-                if (firstColon)
-                {
-                    logifiedText += textToLogiify[i];
-                    logifiedText += ` `;
-                    firstColon = false;
-                }
-                else
-                {
-                    logifiedText += textToLogiify[i];
-                }
-                break;
-            case ` `:
-                logifiedText += textToLogiify[i];
-                break;
-            case `\t`:
-                logifiedText += textToLogiify[i];
-                break;
-            default:
-                lineEmpty = false;
-                logifiedText += textToLogiify[i];
-                break;
+            if (textToLogify[i] === `{`)
+            {
+                inJson = true; --i;  // flag and reprocess
+            }
+            else
+            {
+                logifiedText += textToLogify[i];
+            }
+        }
+        else
+        {
+            switch (textToLogify[i])
+            {
+                case `{`:
+                    logifiedText += indent() + `{`;
+                    lineEmpty = false;
+                    tabStop++;
+                    logifiedText += indent();
+                    break;
+                case `[`:
+                    logifiedText += indent() + `[`;
+                    lineEmpty = false;
+                    tabStop++;
+                    logifiedText += indent();
+                    break;
+                case `}`:
+                    tabStop--;
+                    inJson = (tabStop <= 0) ? false : true;  // closed opening '{'
+                    logifiedText += indent() + `}`;
+                    firstColon = true;
+                    lineEmpty = false;
+                    break;
+                case `]`:
+                    tabStop--;
+                    logifiedText += indent() + `]`;
+                    firstColon = true;
+                    lineEmpty = false;
+                    break;
+                case `,`:
+                    logifiedText += indent();
+                    firstColon = true;
+                    lineEmpty = true;
+                    break;
+                case `"`:
+                    break;
+                case `:`:
+                    if (firstColon)
+                    {
+                        logifiedText += textToLogify[i];
+                        logifiedText += ` `;
+                        firstColon = false;
+                    }
+                    else
+                    {
+                        logifiedText += textToLogify[i];
+                    }
+                    break;
+                case ` `:
+                    logifiedText += textToLogify[i];
+                    break;
+                case `\t`:
+                    logifiedText += textToLogify[i];
+                    break;
+                default:
+                    lineEmpty = false;
+                    logifiedText += textToLogify[i];
+                    break;
+            }
         }
     }
 
@@ -391,11 +476,12 @@ function logifyText(textToLogiify)
 };
 
 /**
- * listifyArrayHTML() -- Converts an array of text items into a BOOTSTRAP CARD LIST.
- *
+ * @func listifyArrayHTML
+ * @memberof mcodeClient
+ * @desc Converts an array of text items into a BOOTSTRAP CARD LIST.
+ * @api public
  * @param {array} arrayToListify the array to be convert to a HTML List.
  * @returns {string} the HTML List code.
- * @api public
  */
 function listifyArrayHTML(arrayToListify)
 {
@@ -412,11 +498,12 @@ function listifyArrayHTML(arrayToListify)
 };
 
 /**
- * listifyArrayJSX() -- Converts an array of text items into a BOOTSTRAP CARD LIST - JSX code.
- *
+ * @func listifyArrayJSX
+ * @memberof mcodeClient
+ * @desc Converts an array of text items into a BOOTSTRAP CARD LIST - JSX code.
+ * @api public
  * @param {array} arrayToListify the array to be convert to a HTML List.
  * @returns {string} the HTML List code.
- * @api public
  */
 function listifyArrayJSX(arrayToListify)
 {
@@ -437,10 +524,12 @@ function listifyArrayJSX(arrayToListify)
 };
 
 /**
- * isString() -- Checks the type of an Object for String.
- *
+ * @func isString
+ * @memberof mcodeClient
+ * @desc Checks the type of an Object for String.
+ * @api public
  * @param {object} object to be tested
- * @returns a value indicating whether or not the object is a string
+ * @returns {boolean} a value indicating whether or not the object is a string
  */
 function isString(object)
 {
@@ -448,17 +537,19 @@ function isString(object)
 }
 
 /**
- * isJson() -- Checks a string for JAON data.
- *
- * @param {object} object to be tested
- * @returns a value indicating whether or not the object is a JSON string
+ * @func hasJson
+ * @memberof mcodeClient
+ * @desc Checks a string for embedded JSON data.
+ * @api public
+ * @param {object} object string to be tested
+ * @returns {boolean} a value indicating whether or not the object contains a JSON string
  */
-function isJson(object)
+function hasJson(object)
 {
     try
     {
         if (typeof object != 'string') return false;
-        if (object.includes(`{`)) return true;  // treat as JSON -- JSON.parse() if overkill
+        if (object.includes(`{`)) return true;  // treat as JSON -- JSON.parse() is overkill here
         return false; // *not* JSON
     }
     catch
@@ -467,11 +558,83 @@ function isJson(object)
     }
 };
 
+/**
+ * @func NotaNumber
+ * @memberof mcodeClient
+ * @desc Checks for NaN.
+ * @api public
+ * @param {any} numberToCheck as a number of some type
+ * @returns {boolean} a value indicating whether or not it is NaN.
+ */
+function NotaNumber(numberToCheck)
+{
+    // NOTE: this compare will fail for NaN
+    // eslint-disable-next-line no-self-compare
+    return (numberToCheck !== numberToCheck);
+};
+
+/**
+ * @func roundToCents
+ * @memberof mcodeClient
+ * @desc Rounds a floating point number that represents dollars and cents to 2 decimals digits (pennies).
+ * @api public
+ * @param {number} numberToRound as a floating point value
+ * @returns {number} number rounded to dollars and cents (2 decimals place)
+ */
+function roundToCents(numberToRound)
+{
+    return roundOff(numberToRound, 2);
+};
+
+/**
+ * @func roundOff
+ * @memberof mcodeClient
+ * @desc Rounds a floating point number to any number of places.
+ * @api public
+ * @param {number} numberToRound as a floating point value
+ * @param {number} numberOfPlaces number of decimal places to round
+ * @returns {number} number rounded to dollars and cents (2 decimals place)
+ */
+function roundOff(numberToRound, numberOfPlaces)
+{
+    // if NaN reset to ZERO
+    if (NotaNumber(numberToRound))
+    {
+        return 0.00;
+    }
+    else
+    {
+        const roundingFactor = Math.pow(10, numberOfPlaces);
+        return Math.round(numberToRound * roundingFactor) / roundingFactor;
+    }
+};
+
+/**
+ * @func toCurrency
+ * @memberof mcodeClient
+ * @desc Rounds a floating point number to any number of places.
+ * @api public
+ * @param {number} numberToDisplay as a floating point value
+ * @returns {string} number rounded to dollars and cents (2 decimals place)
+ */
+function toCurrency(numberToDisplay)
+{
+    // if NaN reset to ZERO
+    if (NotaNumber(numberToDisplay))
+    {
+        return `$0.00`;
+    }
+    else
+    {
+        return `$${roundToCents(numberToDisplay)}`;
+    }
+};
+
 // #endregion
 
 // #region  F U N C T I O N - E X P O R T S
 
-export {log, timeStamp, simplifyText, listifyArrayHTML, listifyArrayJSX, isString, isJson};
+export {log, exp, timeStamp, simplifyText, listifyArrayHTML, listifyArrayJSX, isString, hasJson, toCurrency};
 
 // #endregion
 

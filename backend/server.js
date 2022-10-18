@@ -178,8 +178,7 @@ app.get('/test', function (req, res)
     }
  *
  *
- * @returns {object} account object if successful
- * @returns {string} 401 status with error message if unsucessful
+ * @returns {object} account object if successful or 401 status with error message if unsucessful
  */
 app.get(`/user-create`, async (req, res) =>
 {
@@ -192,12 +191,12 @@ app.get(`/user-create`, async (req, res) =>
 
     try
     {
-        await user.save().then(() => mcode.log(`User [${user.username}] was created in database.`, logSource, `Information`));
+        await user.save().then(() => mcode.log(`User [${user.username}] was created in database.`, logSource, `info`));
         res.send(`User [${user.username}] was created.\n`);
     }
     catch
     {
-        mcode.log(`Creation of User [${user.username}] failed, check MongoDB.`, logSource, `Error`);
+        mcode.log(`Creation of User [${user.username}] failed, check MongoDB.`, logSource, `error`);
         res.send(`Creation of User [${user.username}] failed, check MongoDB.\n`);
     }
 
@@ -211,7 +210,7 @@ app.get(`/user-create`, async (req, res) =>
  */
 app.get(`/users-delete`, async (req, res) =>
 {
-    await User.deleteMany({}).then(() => mcode.log(`All Users were deleted from database.`, logSource, `Warning`));
+    await User.deleteMany({}).then(() => mcode.log(`All Users were deleted from database.`, logSource, `warn`));
 
     res.send(`All Users deleted.\n`);
 });
@@ -224,7 +223,7 @@ app.get(`/users-delete`, async (req, res) =>
 app.get(`/users`, async (req, res) =>
 {
     const users = await User.find();
-    mcode.log(`users:${mcode.simplifyText(JSON.stringify(users))}`, logSource, `Information`);
+    mcode.log(`users:${mcode.simplifyText(JSON.stringify(users))}`, logSource, `info`);
 
     res.json(users);
 });
@@ -246,17 +245,17 @@ app.get(`/users`, async (req, res) =>
 app.listen(APP_PORT, function ()
 {
     // show that our listener is alive
-    mcode.log(`Running on Port: ${APP_PORT}!  Path: ${APP_URL}`, logSource, `Information`);
-    mcode.log(`Attempting Database connection: ${APP_URL}`, logSource, `Waiting`);
+    mcode.log(`Running on Port: ${APP_PORT}!  Path: ${APP_URL}`, logSource, `info`);
+    mcode.log(`Attempting Database connection: ${APP_URL}`, logSource, `wait`);
 
     try
     {
         // connect to our database server/container
-        connectDB().then(() => mcode.log(`Database connected.`, logSource, `Information`));
+        connectDB().then(() => mcode.log(`Database connected.`, logSource, `info`));
     }
     catch
     {
-        mcode.log(`Database connection failed: ${APP_URL}`, logSource, `Error`);
+        mcode.log(`Database connection failed: ${APP_URL}`, logSource, `error`);
     }
 });
 

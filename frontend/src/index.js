@@ -78,7 +78,7 @@ import './index.css';
 import App from './App';
 
 // include our common MicroCODE Server Library
-import {log, simplifyText} from './mcodeClient.js';
+import {log} from './mcodeClient.js';
 
 // get our current file name for logging events
 var path = require('path');
@@ -125,7 +125,7 @@ const envSorted = Object.keys(process.env)
         return accumulator;
     }, {});
 
-log(`process.env (sorted):${simplifyText(JSON.stringify(envSorted))}`, logSource, `Information`);
+log(`process.env (sorted):${JSON.stringify(envSorted)}`, logSource, `info`);
 
 ReactDOM.render(
     <React.StrictMode>
