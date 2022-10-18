@@ -1,3 +1,10 @@
+# ***************************************************************************
+# NOTE: This version does not BUILD it only launches the Containers.
+#       This is used direcly in a DigitalOcean 'Droplet' to launch our App.
+#       It is run from *root* and expects ".env" to be there as a concatenation
+#       of our .env and .env.prodction files.
+# ***************************************************************************
+#
 #       Title:    MicroCODE Docker Compose File for MERN App STACK
 #       Module:   Modules (./docker-compose.yaml)
 #       Customer: MITxPRO MERN Course
@@ -130,12 +137,7 @@ services:
     # use the shared .env file for all 3 Tiers
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
-      - .\.env.${NODE_ENV:-development}  # "development" to override the "production" vars in the 'Dockerfile'
-    build:
-      context: frontend  # build from \frontend
-      args:
-        APP_NAME: ${APP_NAME}
-        NODE_ENV: ${NODE_ENV:-development}
+    image: "tjmcode/appname-frontend"
     ports:
       - '${APP_FRONTEND_PORT:-3000}:3000'
     restart: always
@@ -152,12 +154,7 @@ services:
     # use the shared .env file for all 3 Tiers
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
-      - .\.env.${NODE_ENV:-development}  # "development" to override the "production" vars in the 'Dockerfile'
-    build:
-      context: backend  # build from \backend
-      args:
-        APP_NAME: ${APP_NAME}
-        NODE_ENV: ${NODE_ENV:-development}
+    image: "tjmcode/appname-backend"
     ports:
       - '${APP_BACKEND_PORT:-8080}:8080'
     restart: always
@@ -176,11 +173,7 @@ services:
     env_file:
       - .\.env  # shared environment vars for all 3-Tiers
       - .\.env.${NODE_ENV:-development}  # "development" to override the "production" vars in the 'Dockerfile'
-    build:
-      context: database  # build from \database
-      args:
-        APP_NAME: ${APP_NAME}
-        NODE_ENV: ${NODE_ENV:-development}
+    image: "tjmcode/appname-database"
     ports:
       - '${APP_DATABASE_PORT:-27017}:27017'
     volumes:
