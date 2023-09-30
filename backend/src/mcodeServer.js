@@ -429,7 +429,7 @@ methods.logifyText = function (textToLogify)
                     lineEmpty = false;
                     break;
                 case `,`:
-                    logifiedText += indent();
+                    logifiedText += `,` + indent();
                     firstColon = true;
                     lineEmpty = true;
                     break;
@@ -482,7 +482,7 @@ methods.NotaNumber = function (numberToCheck)
  * @memberof mcodeServer
  * @desc Rounds a floating point number that represents dollars and cents to 2 decimals digits (pennies).
  * @api public
- * @param {number} numberToRound as a floating point value
+ * @param {float} numberToRound as a floating point value
  * @returns {number} number rounded to dollars and cents (2 decimals place)
  */
 methods.roundToCents = function (numberToRound)
@@ -495,7 +495,7 @@ methods.roundToCents = function (numberToRound)
  * @memberof mcodeServer
  * @desc Rounds a floating point number to any number of places.
  * @api public
- * @param {number} numberToRound as a floating point value
+ * @param {float} numberToRound as a floating point value
  * @param {number} numberOfPlaces number of decimal places to round
  * @returns number rounded to dollars and cents (2 decimals place)
  */
